@@ -1554,7 +1554,7 @@ function updateSkyInfo() {
   if (r) r.style.display = moved ? '' : 'none';
   const n = document.getElementById('sky-frame-note');
   renderLinesBox();
-  if (n) n.textContent = `Blue rectangle = your sensor's field of view (${S.fov.w.toFixed(2)}° × ${S.fov.h.toFixed(2)}°) at true scale. Drag the image to move the framing. North is up, East is left. Image: DSS2 via CDS HiPS2FITS.${S.mtId ? '' : ' Double-click (mouse) or long-press (touch) anywhere on the image to see what deep-sky objects are there.'}`;
+  if (n) n.innerHTML = `Blue rectangle = your sensor's field of view (${S.fov.w.toFixed(2)}° × ${S.fov.h.toFixed(2)}°) at true scale. Drag the image to move the framing. North is up, East is left. Image: Digitized Sky Survey (STScI/NASA), processed by CDS HiPS2FITS — <a href="https://archive.stsci.edu/dss/copyright.html" target="_blank" rel="noopener" style="color:var(--accent)">copyright &amp; credits</a>.${S.mtId ? '' : ' Double-click (mouse) or long-press (touch) anywhere on the image to see what deep-sky objects are there.'}`;
   persistMtFrame();
   recalcSkyDependent();
 }

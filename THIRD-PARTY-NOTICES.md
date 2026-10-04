@@ -17,7 +17,17 @@ Licensed under **CC BY-SA 4.0** (see `LICENSE-CATALOG`), *not* under the non-com
 because it is an adaptation of OpenNGC:
 
 - **OpenNGC** — Mattia Verga, https://github.com/mattiaverga/OpenNGC, CC BY-SA 4.0. OpenNGC itself
-  merges data from NED (NASA/IPAC Extragalactic Database), HyperLEDA and other sources listed in its README.
+  merges data from the sources below, whose own acknowledgements apply:
+  - This research has made use of the NASA/IPAC Extragalactic Database (NED), which is operated by the Jet
+    Propulsion Laboratory, California Institute of Technology, under contract with the National Aeronautics
+    and Space Administration.
+  - We acknowledge the usage of the HyperLeda database (http://leda.univ-lyon1.fr).
+  - This research has made use of the SIMBAD database, operated at CDS, Strasbourg, France (Wenger et al.
+    2000, A&AS 143, 9, "The SIMBAD astronomical database").
+  - Several tables from HEASARC (High Energy Astrophysics Science Archive Research Center, NASA/GSFC).
+  - Harold Corwin's NGC/IC Positions and Notes, http://haroldcorwin.net/ngcic/
+- This research has made use of the VizieR catalogue access tool, CDS, Strasbourg, France
+  (DOI: 10.26093/cds/vizier; Ochsenbein et al. 2000, A&AS 143, 23).
 - Specialized catalogs retrieved from **VizieR** (CDS, Strasbourg) and merged with it by `build_catalog.py`.
   Please also cite the original authors when you reuse this data:
   - Sharpless (1959) — VII/20

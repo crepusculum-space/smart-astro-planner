@@ -190,7 +190,7 @@ No node_modules needed. Serve with any HTTP server:
 ```
 python3 -m http.server 8080
 ```
-Do NOT open `index.html` via `file://` — fetch for `catalog.json` and Claude API calls will fail. The custom server in `.claude/launch.json` (used by the preview tool) does not strip query strings, so `catalog.json?v=5` 404s and the service worker install fails there: inject the catalog manually (`SAP_CATALOG = await (await fetch('/catalog.json')).json()`) when testing, or use `python3 -m http.server`.
+Do NOT open `index.html` via `file://` — fetch for `catalog.json` and Claude API calls will fail. The custom server in `.claude/launch.json` (used by the preview tool) does not strip query strings, so `catalog.json?v=5` **and `astronomy.browser.min.js?v=…`** 404s (the latter leaves `Astronomy` undefined, so every visibility calculation throws) and the service worker install fails there: for anything that computes visibility, use `python3 -m http.server` instead; otherwise inject the catalog manually (`SAP_CATALOG = await (await fetch('/catalog.json')).json()`) when testing, or use `python3 -m http.server`.
 
 ## Known Issues
 
