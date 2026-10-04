@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Astro Planner — Help</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a1a;color:#e0e0f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;line-height:1.6}
+.help-wrap{max-width:680px;margin:0 auto;padding:20px 16px 60px}
+.help-title{font-size:24px;font-weight:700;color:#4a9eff;margin-bottom:4px}
+.help-subtitle{font-size:12px;color:#555577;margin-bottom:20px}
+h2{font-size:17px;font-weight:700;color:#4a9eff;margin:32px 0 8px;padding-bottom:6px;border-bottom:1px solid #1a1a35}
+h3{font-size:14px;font-weight:600;color:#88aaff;margin:18px 0 6px}
+p{font-size:14px;color:#c0c0d8;margin-bottom:10px;line-height:1.6}
+p b{color:#e0e0f0}
+p i{color:#888aaa}
+ul{padding-left:20px;margin:6px 0 10px}
+ul li{font-size:14px;color:#c0c0d8;margin-bottom:4px;line-height:1.5}
+ul li b{color:#e0e0f0}
+.note{font-size:13px;color:#888aaa;font-style:italic;padding:8px 12px;border-left:3px solid #333366;background:#0d0d22;border-radius:0 6px 6px 0;margin:8px 0 12px}
+.mode-table{width:100%;border-collapse:collapse;margin:12px 0 16px;font-size:13px}
+.mode-table th{background:#111128;color:#4a9eff;padding:8px 12px;text-align:left;border:1px solid #1a2040}
+.mode-table td{padding:8px 12px;border:1px solid #1a2040;color:#c0c0d8;vertical-align:top}
+.mode-table tr:nth-child(even) td{background:#0d0d20}
+.vis-table{width:100%;border-collapse:collapse;margin:12px 0 16px;font-size:13px}
+.vis-table th{background:#111128;color:#4a9eff;padding:6px 10px;text-align:left;border:1px solid #1a2040}
+.vis-table td{padding:6px 10px;border:1px solid #1a2040;color:#c0c0d8}
+.badge-exc{display:inline-block;background:#0F6E56;color:#E1F5EE;border-radius:4px;padding:1px 7px;font-size:12px;font-weight:600}
+.badge-gd{display:inline-block;background:#185FA5;color:#E6F1FB;border-radius:4px;padding:1px 7px;font-size:12px;font-weight:600}
+.badge-mgn{display:inline-block;background:#854F0B;color:#FAEEDA;border-radius:4px;padding:1px 7px;font-size:12px;font-weight:600}
+hr{border:none;border-top:1px solid #1a1a35;margin:28px 0}
+.toc{background:#111128;border:1px solid #1a2040;border-radius:8px;padding:16px;margin-bottom:24px}
+.toc-title{font-size:13px;font-weight:600;color:#4a9eff;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em}
+.toc a{display:block;font-size:13px;color:#88aaff;text-decoration:none;padding:3px 0;border-bottom:1px solid #0d0d20}
+.toc a:last-child{border-bottom:none}
+.toc a:hover{color:#4a9eff}
+figure{margin:14px 0 18px}figure img{display:block;width:100%;height:auto;border-radius:8px;border:1px solid #1a2040}figcaption{font-size:12px;color:#888aaa;margin-top:6px;line-height:1.45}
+</style>
+</head>
+<body>
+<div class="help-wrap">
+
+<div class="help-title">Smart Astro Planner</div>
+<div class="help-subtitle">Help &amp; Getting Started Guide · v3.1</div>
+
+<div class="toc">
+  <div class="toc-title">Contents</div>
+  <a href="#what">What is Smart Astro Planner?</a>
+  <a href="#install">Installing the App</a>
+  <a href="#modes">Two Operating Modes</a>
+  <a href="#setup">First-Time Setup</a>
+  <a href="#horizonmask">Horizon Mask</a>
+  <a href="#visibility">Understanding Visibility Ratings</a>
+  <a href="#targets">Generating Your Target List</a>
+  <a href="#table">Reading the Target List</a>
+  <a href="#detail">Target Detail Screen</a>
+  <a href="#framing">Framing (Framing Simulator)</a>
+  <a href="#altprofile">Altitude Profile</a>
+  <a href="#bestseason">Best Season</a>
+  <a href="#objectinfo">Wikipedia, Simbad and AI Description</a>
+  <a href="#savedqueries">Saved Queries</a>
+  <a href="#savedlists">Saved Target Lists</a>
+  <a href="#mytargets">My Targets</a>
+  <a href="#meridian">Night Info</a>
+  <a href="#backup">Backup &amp; Sync</a>
+  <a href="#database">Local Database</a>
+  <a href="#tips">Tips &amp; Best Practices</a>
+  <a href="#support">How to Get Support</a>
+</div>
+
+<hr>
+
+<h2 id="what">What is Smart Astro Planner?</h2>
+<p>Smart Astro Planner is a planning companion for amateur astrophotographers. It is a long way from what a tool like Telescopius offers, and it does not try to replace it or compete with it. Telescopius and similar atlases are excellent, and you should keep using them.</p>
+
+<h3>Who it is for</h3>
+<p>Most amateur imagers do not live near the pole, where winter nights last for months, and they do not shoot under a Bortle 0 sky. Few can rent a spot in a remote observatory with better conditions. Most work from a backyard, with a horizon partly hidden by the house or the trees, and clear nights that come one at a time.</p>
+<p>Very few can collect ten hours per filter, on three or four filters, in five or six consecutive nights. Real projects stretch over weeks, one clear night after another.</p>
+
+<h3>A different question</h3>
+<p>Most atlases include a <i>Tonight's best</i> list, and Telescopius goes much further with powerful filters, but the answer is always for a single date. Smart Astro Planner does not answer <i>"What can I photograph tonight?"</i> It answers a different question: <b>"What are my options over the next few weeks?"</b></p>
+<p>Give it your site and a period of one to twelve weeks. It builds a list of targets that are genuinely usable from <i>your</i> backyard, week by week, taking into account your horizon and the altitude you need. Equipment only comes into play afterwards, per target, when you preview the real framing.</p>
+
+<h3>The planning toolbox</h3>
+<ul>
+  <li><b>Target lists</b> drawn from a local catalog of 19,000+ objects, filtered by how many hours per night each target is really usable from your site — above your minimum altitude and in the parts of the sky you can actually see — and by season.</li>
+  <li><b>Weekly visibility</b> and an <b>altitude profile</b> with the Moon's position, to see when each target is at its best.</li>
+  <li><b>Framing Simulator</b>: a real sky image with your sensor's field of view drawn on it, movable and rotatable, for any of your equipment configurations.</li>
+  <li><b>Emission line measurement</b>: how much Hα, OIII and SII lies inside your frame, to help choose between LRGB, HOO or SHO.</li>
+  <li><b>My Targets</b>: your actual shooting list — each entry pins a target to a specific framing, telescope/camera, and observing site, tracked as to do / in progress / done, with AI Capture Advice (a filter/palette strategy for that equipment and sky, no dates or weather involved).</li>
+  <li><b>Night Info</b>: transit and twilight times for your saved targets, useful for planning start/end and meridian flip times.</li>
+  <li><b>Backup &amp; sync</b> between your devices.</li>
+</ul>
+
+<div class="note">Smart Astro Planner is a starting point, not the final word. Before committing several nights of imaging to a target, check its position, framing and visibility with your usual tools (SkySafari, Telescopius, Stellarium, your capture software). The catalog data and the estimates are approximate, and a bad surprise on the third night costs more than a few minutes of verification.</div>
+<div class="note">This app is hosted at the developer's own expense on a shared web server. If it ever received enough traffic to exceed the hosting plan's bandwidth limit, it could become temporarily unavailable until the start of the next billing month. This is unlikely under normal use — after your first visit, almost everything is served from your device's own cache, not from the server (see <a href="#install" style="color:#88aaff">Installing the App</a>).</div>
+
+<hr>
+
+<h2 id="install">Installing the App</h2>
+<p>Smart Astro Planner is a Progressive Web App (PWA). It runs in your browser but can be installed on your home screen for a native app experience with offline access.</p>
+
+<h3>On iPhone or iPad (Safari)</h3>
+<ul>
+  <li>Open Safari and navigate to the app URL</li>
+  <li>Tap the <b>Share</b> button (square with upward arrow) at the bottom of the screen</li>
+  <li>Scroll down and tap <b>Add to Home Screen</b>, then tap <b>Add</b></li>
+</ul>
+<div class="note">Use Safari — Chrome and other iOS browsers do not support PWA installation.</div>
+
+<h3>On Android (Chrome)</h3>
+<ul>
+  <li>Open Chrome and navigate to the app URL</li>
+  <li>Tap the three-dot menu → <b>Add to Home Screen</b> or <b>Install App</b></li>
+</ul>
+
+<h3>On Mac or Windows (Chrome or Edge)</h3>
+<ul>
+  <li>Look for the install icon in the address bar and click it</li>
+  <li>Or use Chrome menu → Cast, Save, and Share → <b>Install Page as App</b></li>
+</ul>
+<p>Once installed, your locations, equipment, targets and preferences are stored locally on your device, and the app itself is cached for offline use. An internet connection is only needed for Capture Advice (AI) and for online data: Wikipedia, Simbad and sky images.</p>
+
+<h3>Opening Help in a separate browser window</h3>
+<p>The <b>Help</b> tab has an <b>Open in browser</b> button that opens this guide in a new browser tab, allowing you to keep the app and the help side by side.</p>
+
+<hr>
+
+<h2 id="modes">Two Operating Modes</h2>
+<p>Target selection is always local and instant — no AI or internet needed. The operating mode only affects the optional <b>AI Description</b> and <b>Capture Advice</b> cards:</p>
+<table class="mode-table">
+  <tr><th>Assisted mode</th><th>Non-assisted mode</th></tr>
+  <tr>
+    <td>Requires a Claude API key (anthropic.com). The app calls Claude directly — everything happens inside the app.<br><br><i>Cost: a few cents per request, at most.</i></td>
+    <td>No API key needed. The app generates a ready-to-use prompt. You paste it into any AI (Claude, ChatGPT, Gemini, etc.), then paste the response back.<br><br><i>Cost: free — uses your existing AI plan.</i></td>
+  </tr>
+</table>
+
+<hr>
+
+<h2 id="setup">First-Time Setup</h2>
+
+<h3>1. Configure your API key (assisted mode only)</h3>
+<p>Go to <b>Settings</b>, enter your Claude API key from console.anthropic.com, and set the mode to <b>Assisted</b>. Leave it as <b>Non-assisted</b> if you prefer to use another AI manually.</p>
+<p>A <b>Model</b> dropdown appears once Assisted mode is on. Tap <b>Load models</b> to fetch the list of models available to your key, then pick which one to use for AI Description, Capture Advice and Fetch specs. It's your key and your cost, so the choice is yours — a newer/larger model tends to know more (useful for recognizing recent gear when fetching specs) but costs more per request.</p>
+
+<h3>Don't have a Claude API key yet?</h3>
+<p>The API key is separate from a regular claude.ai subscription — it's billed pay-as-you-go (a few cents per request in this app) rather than a monthly plan. To get one:</p>
+<ol style="padding-left:20px;margin:6px 0 10px">
+  <li style="font-size:14px;color:#c0c0d8;margin-bottom:4px">Create an account at <b>console.anthropic.com</b> (this is the developer console, different from claude.ai).</li>
+  <li style="font-size:14px;color:#c0c0d8;margin-bottom:4px">Add a payment method under <b>Billing</b> — required before any key will work, even for small amounts.</li>
+  <li style="font-size:14px;color:#c0c0d8;margin-bottom:4px">Go to <b>API Keys</b>, create a new key, and copy it right away — it's only shown once.</li>
+  <li style="font-size:14px;color:#c0c0d8;margin-bottom:4px">Paste it into Smart Astro Planner's Settings, as described above.</li>
+</ol>
+<div class="note">Optional but recommended: under <b>Billing → Usage limits</b> in the console, you can set a monthly spend cap so costs never exceed what you're comfortable with, regardless of how much you use assisted features.</div>
+
+<h3>2. Add your equipment</h3>
+<p>Go to the <b>Equipment</b> tab and tap <b>+</b>. Fill in your telescope, camera sensor specs, mount, controller, and available filters. In assisted mode, tap <b>Fetch specs</b> (for the sensor or the telescope) to auto-fill specs by model name — best effort; fill in manually anything it can't find.</p>
+
+<h3>3. Add your location</h3>
+<p>Go to the <b>Locations</b> tab and tap <b>+ Add</b> to add your first observing site with coordinates, elevation, Bortle class, estimated clear nights per year, and minimum imaging altitude. Use <b>Use my location</b> to auto-fill GPS coordinates. No location is pre-configured — you need at least one before generating a target list.</p>
+<p>Each location can also have a <b>Horizon Mask</b> — see the next section.</p>
+
+<figure><img src="help-img/locations.jpg" alt="Locations tab" loading="lazy"><figcaption>The Locations tab. The small compass rose on each card is the horizon mask; the ↑ chip is the minimum altitude. Screenshots use demo data.</figcaption></figure>
+
+<hr>
+
+<h2 id="horizonmask">Horizon Mask</h2>
+<p>Each observing location can have a horizon mask — a map of which compass directions are actually visible from that site. This accounts for obstructions like buildings, trees, or terrain that block part of the sky.</p>
+
+<h3>Configuring the mask</h3>
+<p>In the <b>Locations</b> tab, tap <b>Edit</b> on a location and scroll to the <b>Horizon Mask</b> section. A compass rose with 8 sectors (N, NE, E, SE, S, SW, W, NW) is shown. Tap each sector to toggle it between visible (blue) and blocked (dark). Use <b>All visible</b> / <b>All blocked</b> for quick setup.</p>
+<p>Each location also has a <b>Min Imaging Altitude</b> (default 35°). It applies to all target selections and visibility calculations for that site.</p>
+<figure><img src="help-img/location-mask.jpg" alt="Editing a location: minimum altitude and horizon mask" loading="lazy"><figcaption>Editing a location: minimum imaging altitude and horizon mask. Blue sectors are visible, dark ones are blocked (here the south is hidden by a house).</figcaption></figure>
+
+<div class="note">If all sectors are marked visible (the default), the horizon mask is inactive and has no effect on target selection.</div>
+
+<h3>How the mask is used</h3>
+<ul>
+  <li><b>Target selection</b> — targets that are never in a visible sector during the astronomical night (even when above the minimum altitude) are excluded from the list.</li>
+  <li><b>Visibility ratings</b> — the weekly ratings count only the hours the target is above the minimum altitude <i>and</i> in a visible sector (see <a href="#visibility" style="color:#88aaff">Understanding Visibility Ratings</a>).</li>
+</ul>
+<p>The horizon mask is shown as a small compass rose on each location card in the Locations tab — blue sectors are visible, dark sectors are blocked.</p>
+
+<hr>
+
+<h2 id="visibility">Understanding Visibility Ratings</h2>
+<p>For every target, the app rates each week of your search period. The rating is based on the <b>usable hours per night</b>: the hours of astronomical night (Sun more than 18° below the horizon) during which the target is above your location's minimum altitude and, if you set a horizon mask, in a direction you can actually see.</p>
+<table class="vis-table">
+  <tr><th>Rating</th><th>Meaning</th><th>Usable hours per night</th></tr>
+  <tr><td><span class="badge-exc">EXC</span></td><td>Excellent — long imaging window</td><td>≥ 4 h</td></tr>
+  <tr><td><span class="badge-gd">GD</span></td><td>Good — decent imaging window</td><td>≥ 2 h</td></tr>
+  <tr><td><span class="badge-mgn">MGN</span></td><td>Marginal — short window</td><td>&gt; 0 h</td></tr>
+  <tr><td>—</td><td>Not usable from this site</td><td>0 h</td></tr>
+</table>
+<p>The rating uses one night in the middle of each week, computed with the astronomy-engine library from your location's coordinates. It does not take the Moon into account — see <i>Moon sensitivity</i> in the Target Detail section for that.</p>
+<div class="note">Because ratings depend on your site's minimum altitude and horizon mask, the same target can be Excellent in a wide-open field and Marginal from a backyard with a house to the south.</div>
+
+<hr>
+
+<h2 id="targets">Generating Your Target List</h2>
+<p>In the <b>Targets</b> tab, tap <b>New Target List</b>. Target selection is instant — it draws from a local catalog of 19,000+ objects with no internet required, and has no equipment or field-of-view concept: it is purely about where and when a target is visible from your site. Equipment only comes in afterwards, per target, in the <a href="#framing" style="color:#88aaff">Framing</a> card, where you can preview any of your configurations against the real sky.</p>
+
+<figure><img src="help-img/new-target-list.jpg" alt="New Target List screen" loading="lazy"><figcaption>The New Target List screen: site, period, usable hours and season options, with no equipment field.</figcaption></figure>
+
+<h3>Session parameters</h3>
+<ul>
+  <li><b>Location</b> — select from your saved observing sites. The location's minimum altitude and horizon mask are used automatically.</li>
+  <li><b>Start date</b> — the beginning of your imaging period</li>
+  <li><b>Duration</b> — 1 to 12 weeks. Use 1–2 weeks for a "next target" search, 6–12 for long-range planning.</li>
+  <li><b>Usable hours</b> — keep only targets usable at least <i>H</i> hours per night (above the site's min altitude and inside the visible sectors of its horizon mask, see <a href="#visibility" style="color:#88aaff">Understanding Visibility Ratings</a>) on at least <i>N</i> weeks of the period. Set hours to 0 to disable.</li>
+  <li><b>In season only</b> — when checked, keeps only targets rated <b>Good</b> or <b>Excellent</b> for at least 2 weeks of the period (see <a href="#visibility" style="color:#88aaff">Understanding Visibility Ratings</a>). It removes targets that are only barely visible at the start or end of your search.</li>
+</ul>
+
+<h3>Target type sliders (0–10)</h3>
+<ul>
+  <li><b>0</b> = exclude entirely &nbsp;·&nbsp; <b>10</b> = highest priority &nbsp;·&nbsp; <b>5</b> = balanced</li>
+  <li>9 types: Emission Nebula, Supernova Remnant, IFN, Reflection Nebula, Planetary Nebula, Galaxy, Open Cluster, Globular Cluster, Dark Nebula</li>
+</ul>
+<p>Setting a slider to 0 completely excludes that type. Higher values increase the probability of that type being selected.</p>
+
+<h3>Catalog Diversity</h3>
+<p>Within a given type, some source catalogs are much larger than others (for example OpenNGC galaxies vastly outnumber the smaller specialized catalogs). The <b>Diversity</b> slider counterbalances this: at 0, sampling is purely random and large catalogs dominate; at 10, all source catalogs of that type get roughly equal representation. A middle value gives a reasonable mix without drowning out the smaller catalogs.</p>
+
+<h3>Must Include</h3>
+<p>Enter specific object names or catalog IDs separated by commas. The search is case-insensitive and matches partial names — typing "Veil" will include all Veil Nebula components. Example: <i>Veil, IC 405, Andromeda</i></p>
+
+<h3>List Size</h3>
+<p>Use the slider to select between 10 and 50 targets.</p>
+
+<h3>Saved queries</h3>
+<p>Tap <b>Save query</b> to save all current parameters under a custom name (e.g. "Galaxy Season", "Winter Narrowband"). Tap <b>Load query</b> to reload a saved query and pre-fill all fields.</p>
+
+<hr>
+
+<h2 id="table">Reading the Target List</h2>
+<p>Your targets appear sorted by type (in slider order) then alphabetically. Each target shows a <b>type abbreviation</b> (Em, SNR, IFN, Ref, PN, Gal, OC, GC, Dk) and a row of weekly visibility ratings (see <a href="#visibility" style="color:#88aaff">Understanding Visibility Ratings</a>).</p>
+<p>Tap any target row to open its detail screen.</p>
+
+<figure><img src="help-img/target-list.jpg" alt="Target list with weekly ratings" loading="lazy"><figcaption>A target list. Each row shows the type and the visibility rating of each week of the period.</figcaption></figure>
+
+<hr>
+
+<h2 id="detail">Target Detail Screen</h2>
+<p>The detail screen shows comprehensive information about a target, in this order:</p>
+<ul>
+  <li><b>Weekly Visibility</b> — the rating of each week of your period</li>
+  <li><b>Framing</b> — a real sky image with your field of view on top, and an emission-line measurement</li>
+  <li><b>Altitude Profile</b> — interactive chart of the night, with twilight zones and the Moon</li>
+  <li><b>Best Season</b> — monthly chart of the best imaging months</li>
+  <li><b>Filters</b> — recommended filters with a moon sensitivity indicator</li>
+  <li><b>Wikipedia, Simbad and AI Description</b> — background information about the object</li>
+</ul>
+
+<figure><img src="help-img/target-detail.jpg" alt="Target detail screen" loading="lazy"><figcaption>The top of a target detail screen: weekly ratings and the Framing card.</figcaption></figure>
+
+<h3>Moon sensitivity</h3>
+<p>Based on the target's default filters:</p>
+<ul>
+  <li><b>Insensitive</b> — narrowband only, shoot any moon phase</li>
+  <li><b>Partial</b> — mixed filters, prefer darker skies for broadband channels</li>
+  <li><b>Sensitive</b> — broadband, prioritize new moon</li>
+</ul>
+
+<h3>Navigating between targets</h3>
+<p>Use <b>‹</b> and <b>›</b> at the top of the screen to move between the targets of your list without going back — a position indicator shows where you are (e.g. <b>3 / 14</b>). On a touch screen, you can also <b>swipe left/right</b> anywhere on the screen to do the same, except while dragging the Framing image, rotating its camera-angle slider, or moving the Altitude Profile slider.</p>
+
+<hr>
+
+<h2 id="framing">Framing (Framing Simulator)</h2>
+<p>When enabled in Settings and an equipment configuration exists, the detail screen shows a real sky image (DSS2, from the CDS HiPS2FITS service) centered on the target with your sensor's field of view drawn on top at true scale. North is up, East is left. Because it is a real image rather than a catalog size, it stays accurate even when the catalog's own size data is missing or wrong.</p>
+<ul>
+  <li><b>Color / Red</b> — Red shows faint emission nebulae much better (the red plate is sensitive to H-alpha) and does not saturate bright cores; Color looks more natural for galaxies and clusters. Red is chosen by default for emission nebulae, supernova remnants and planetary nebulae, Color for the rest. When you switch, your choice is remembered for that object type (and included in the backup).</li>
+  <li><b>Camera angle</b> — slider that rotates the field-of-view rectangle to test different camera orientations.</li>
+  <li><b>Equipment</b> — if you have several configurations, a selector changes the size of the rectangle to preview the same target with another telescope/camera. It does not change your target list.</li>
+  <li><b>Moving the framing</b> — drag the image to shift the framing. The rectangle stays at the center; when you release, a new image centered on the new position is loaded. The coordinates of the center are shown below the image, with a <b>Reset to target</b> button to come back.</li>
+  <li><b>What's in my Frame?</b> — double-click (mouse) or long-press (touch) anywhere on the image to search the local catalog for other deep-sky objects at that spot. Matches are drawn as amber ellipses on the image and listed below, largest first; tap one to highlight it, or <b>+ Add</b> it to your current target list (using the same site and period as your search). Available when viewing a search result, not from a My Targets entry.</li>
+</ul>
+
+<figure><img src="help-img/framing.jpg" alt="Framing with emission lines" loading="lazy"><figcaption>Framing: the blue rectangle is the sensor field of view, and the measurement below shows what Hα, OIII and SII signal lies inside it.</figcaption></figure>
+
+<h3>Emission Lines in Frame</h3>
+<p>Under the framing image, <b>Analyze framing</b> measures how much <b>Hα, OIII and SII</b> signal lies <i>inside your current frame</i> (position, angle and equipment), using the Northern Sky Narrowband Survey. It shows one bar per line, the intensity in Rayleighs, and a suggestion: <b>LRGB</b> when the emission is very faint, otherwise <b>HOO</b>, <b>SHO</b>, an Hα bicolor or a single narrowband filter, with the weak or negligible lines called out.</p>
+<ul>
+  <li>The measurement runs <b>only when you tap the button</b> (about 0.7 MB of data), never automatically.</li>
+  <li>If you move the frame, rotate it or change equipment, the result is dimmed with a warning until you analyze again, so it always matches what you would actually shoot.</li>
+  <li>The last analysis of each target is saved on the device. In <b>assisted mode</b> it is included in the AI Description and Capture Advice prompts, so the AI can skip lines with negligible signal.</li>
+  <li>Coverage is the northern sky (about 65 % of the sky). Outside it, the app tells you no measurement is available.</li>
+</ul>
+<div class="note">The thresholds behind the suggestion are initial estimates. Use it as a guide, not as a rule. Survey data: Stefan Ziegenbalg, CC BY-NC-SA 4.0 (simg.de/nebulae3), with Hα calibration from WHAM.</div>
+
+<p>The rectangle starts centered on the catalog coordinates of the target (or, in <b>My Targets</b>, the exact framing you saved). Images are cached on the device (up to 80) and the oldest are removed automatically. <b>Settings → Preferences</b> shows the number of cached images and their total size, with a <b>Clear</b> button.</p>
+
+<hr>
+
+<h2 id="altprofile">Altitude Profile</h2>
+<p>An interactive chart showing the target's altitude throughout the night. The background is shaded to indicate twilight zones:</p>
+<ul>
+  <li><b>Lightest band</b> (edges) — civil twilight (sun -6° to 0°)</li>
+  <li><b>Medium band</b> — nautical twilight (sun -12° to -6°)</li>
+  <li><b>Darkest band</b> (center) — astronomical night (sun below -18°)</li>
+</ul>
+<p>The blue filled area shows when the target is above the location's minimum imaging altitude. A dashed line shows the <b>Moon's angular separation</b> from the target on the same 0–90° scale — the dash pattern reflects lunar phase (dotted = new moon, solid = full moon).</p>
+<p>Use the <b>slider</b> below the chart to navigate between weeks. Swipe on the chart, or tap <b>‹ ›</b>, to toggle between <b>WEEK</b> mode (weekly overview) and <b>DAY</b> mode (day-by-day within the selected week) — the slider then moves through weeks or days depending on the current mode.</p>
+<h3>Color-coding the Moon line by filter</h3>
+<p>If you set <b>Moon Separation Thresholds</b> in <b>Settings → Preferences</b> (a minimum comfortable angular distance, in degrees, for Hα, OIII, SII and/or Broadband), the Moon line switches from plain grey to a color that tells you what's actually shootable at each point in the night — using only the filters present on <i>this target's own equipment</i>. Green means every relevant filter is fine; the muted dark red means none are; otherwise the line takes the color of the most demanding filter still usable — an OIII-colored segment means OIII, and anything easier (Hα, SII), is fair game. Leave all four fields blank to keep the line plain grey, as before.</p>
+<div class="note">The chart follows your current framing, not just the catalog position: if you drag the image in the Framing card to a different spot, the Altitude Profile (and Best Season below) recalculates for that exact center as soon as you release it.</div>
+
+<hr>
+
+<h2 id="bestseason">Best Season</h2>
+<p>A bar chart showing how many hours per night the target is above the location's minimum altitude during astronomical night, for each month of the year. The best month is highlighted in green.</p>
+<p>This helps answer the question: <i>when is the best time of year to image this target from my location?</i> Like the Altitude Profile, it follows your current framing center once you have moved it.</p>
+
+<figure><img src="help-img/best-season.jpg" alt="Best Season chart" loading="lazy"><figcaption>Best Season: hours per night above the minimum altitude, month by month, with the best month in green.</figcaption></figure>
+
+<hr>
+
+<h2 id="objectinfo">Wikipedia, Simbad and AI Description</h2>
+<p>At the bottom of the detail screen, cards give background on the object:</p>
+<ul>
+  <li><b>Wikipedia</b> — photo and description, when an article exists (fetched live), with a link to read the full article on Wikipedia</li>
+  <li><b>Simbad</b> — common name(s) when Simbad knows one, object type, magnitude, distance, radial velocity when known, plus catalog cross-identifications (fetched live)</li>
+  <li><b>AI Description</b> — <i>assisted mode only</i>, see below</li>
+</ul>
+<div class="note">On a cellular connection, you can turn off <b>Show Wikipedia Data</b> and <b>Show Framing Simulator</b> in <b>Settings → Preferences</b> to save data.</div>
+
+<figure><img src="help-img/object-info.jpg" alt="Wikipedia, Simbad and AI Description cards" loading="lazy"><figcaption>The information cards at the bottom of the detail screen.</figcaption></figure>
+
+<h3>AI Description</h3>
+<p>In <b>assisted mode</b> (with a Claude API key), the bottom of the detail screen has an <b>AI Description</b> card. Tap <b>✨ Ask Claude</b> to get a short description: the common name if there is one, what the object is, and practical imaging advice (filters, size compared with your field of view). Useful for catalog entries that have no Wikipedia article.</p>
+<ul>
+  <li>The request includes the catalog data and the Simbad identifications, so Claude can recognize objects that appear under several catalogs.</li>
+  <li>Claude is asked to say so when it is unsure rather than guess, but <b>AI can be wrong</b> — verify a common name before relying on it.</li>
+  <li>The answer is saved on the device and shown instantly next time; tap <b>↻ Regenerate</b> to ask again. Each request costs a few cents at most, counted in Settings → API Usage.</li>
+</ul>
+
+<hr>
+
+<h2 id="savedqueries">Saved Queries</h2>
+<p>A saved query stores all search parameters — location, period, all sliders, diversity, Must Include, list size — under a custom name.</p>
+<ul>
+  <li><b>Save query</b> — tap in the New Target List screen after configuring parameters</li>
+  <li><b>Load query</b> — tap to open the list of saved queries and pre-fill all fields</li>
+</ul>
+<div class="note">The start date is saved but you may want to update it when reloading a query for a new season.</div>
+
+<hr>
+
+<h2 id="savedlists">Saved Target Lists</h2>
+<p>Tap <b>Archive</b> next to "New Target List" to save your current list. A dialog asks for a <b>name</b> (required) and optional <b>description</b>.</p>
+<p>Saved lists appear at the bottom of the Targets tab. Tap any to reload it as the active list. Each has a <b>Delete</b> button.</p>
+<div class="note">Reloading a saved list replaces the current active list. Archive first if you want to keep it.</div>
+
+<hr>
+
+<h2 id="mytargets">My Targets</h2>
+<p>This is the heart of Smart Astro Planner — the list of targets you actually intend to capture, each one pinned to a specific framing, a specific telescope/camera, and a specific observing site. When you're ready to start a new target, this is where you come to pick one: everything you need (RA/Dec, camera angle, equipment, site) is already fixed and waiting, nothing to re-decide.</p>
+
+<figure><img src="help-img/my-targets.jpg" alt="My Targets tab" loading="lazy"><figcaption>The My Targets tab: a vignette of the saved framing, a mini Best Season chart, and a status control per entry.</figcaption></figure>
+
+<h3>Saving a framing</h3>
+<p>From a search-result target's detail screen, adjust the <a href="#framing" style="color:#88aaff">Framing</a> card the way you want it — position, camera angle, equipment — then tap <b>+ Add to My Targets</b>. The site is whatever location that search was run for. It always creates a new entry, so framing the same object again with a different lens, a different angle, or from a different site is a deliberate, separate entry rather than an overwrite — useful if you image the same target from two different setups (e.g. a backyard rig and a remote observatory).</p>
+
+<h3>The My Targets tab</h3>
+<p>Each card shows a vignette of the saved framing, the equipment and site used, a small unlabeled Best Season chart (for that entry's own fixed site), and a status control: <b>To do</b>, <b>In progress</b>, <b>Done</b>. Tap a card to open it.</p>
+
+<h3>Viewing a saved entry</h3>
+<p>Opening a My Targets entry reuses the same detail screen as a search result, with a few differences:</p>
+<ul>
+  <li>The equipment and the site are both fixed (shown as text, not selectors) — they're part of what you saved, and can't be changed afterward. If you need a different site or setup for the same object, save it again as a new entry instead.</li>
+  <li>Weekly Visibility and the Altitude Profile look <b>12 weeks ahead from today</b> rather than a past search period, always for that entry's own fixed site.</li>
+  <li>Dragging or rotating the Framing image <b>saves automatically</b> back into the entry — there is no separate save step.</li>
+  <li>A <b>Capture Advice</b> card replaces the Wikipedia/Simbad section's usual companions.</li>
+</ul>
+<div class="note">An entry saved before this version won't have a site attached yet — it falls back to showing your currently active location, labeled "(legacy)" as a reminder that it isn't actually fixed. Re-saving it as a new entry fixes this.</div>
+
+<h3>Capture Advice</h3>
+<p>In <b>assisted mode</b>, tap <b>✨ Get Capture Advice</b> for a recommendation based only on the target, your fixed equipment, your site's Bortle class, and any emission-line measurement you have taken — deliberately <b>no dates, no weather, no total integration time</b>, since none of that is known this far ahead. It suggests a filter/palette strategy, a relative integration split across filters (percentages, not hours), and calls out anything that will be difficult from your sky darkness or hard to frame. In non-assisted mode, copy the generated prompt into any AI and paste the response back.</p>
+<div class="note">Capture Advice is cached on the entry and does not change until you tap <b>↻ Regenerate</b> — useful since it does not depend on dates.</div>
+
+<hr>
+
+<h2 id="meridian">Night Info</h2>
+<p>The <b>Night Info</b> tab lets you save targets with their exact framing coordinates and instantly see when they will transit and the twilight windows for the night — without switching between apps or recalculating by hand each night.</p>
+<p>The primary use case is <b>verifying your mount's meridian flip time</b>. If your mount (e.g. Stellavita) displays a time remaining before flip, add the current time to get the expected transit time, then compare it to what Smart Astro Planner shows.</p>
+
+<figure><img src="help-img/night-info.jpg" alt="Night Info tab" loading="lazy"><figcaption>The Night Info tab: transit time, time remaining and twilight windows for each saved target.</figcaption></figure>
+
+<h3>Adding a target</h3>
+<p>Tap <b>+ Add</b> in the Night Info tab, or tap <b>+ Night Info</b> on any target detail screen to pre-fill the coordinates automatically.</p>
+<ul>
+  <li><b>Name</b> — a label for the target (free text)</li>
+  <li><b>RA</b> — enter as 6 digits <i>HHMMSS</i> (e.g. <b>005411</b> for 0h 54m 11s)</li>
+  <li><b>Dec</b> — tap the <b>+</b> / <b>−</b> button to set the sign, then enter 6 digits <i>DDMMSS</i> (e.g. <b>563719</b> for +56° 37' 19")</li>
+  <li><b>Location</b> — select from your saved observing sites</li>
+</ul>
+<p>A formatted preview (<i>0h 54m 11s / +56° 37' 19"</i>) appears below each field as you type to confirm your entry.</p>
+<div class="note">Enter the coordinates of your actual <b>framing center</b>, not necessarily the catalog center — this is especially useful when your field of view is offset from the object's official coordinates.</div>
+
+<h3>Reading the card</h3>
+<ul>
+  <li><b>Transit</b> — local time when the target crosses the meridian (highest point in the sky)</li>
+  <li><b>Remaining</b> — signed time until transit: <b>+1h 23m</b> (green, future), <b>−0h 08m</b> (orange, just passed), <b>−2h 15m</b> (grey, well past)</li>
+  <li><b>Nautical</b> — nautical dusk → nautical dawn (sun at −12°): the window used for polar alignment</li>
+  <li><b>Astronomical</b> — astronomical dusk → astronomical dawn (sun at −18°): the true imaging window</li>
+</ul>
+<p>All times are calculated for the target's assigned location. Tap <b>↻</b> on a card or <b>↻ Refresh All</b> to recalculate with the current device time.</p>
+
+<h3>Verifying your mount's flip time</h3>
+<ol style="padding-left:20px;margin:6px 0 10px">
+  <li style="font-size:14px;color:#c0c0d8;margin-bottom:4px">Note the time remaining displayed by your mount</li>
+  <li style="font-size:14px;color:#c0c0d8;margin-bottom:4px">Tap <b>↻ Refresh All</b> in Smart Astro Planner</li>
+  <li style="font-size:14px;color:#c0c0d8;margin-bottom:4px">Compare the <b>Remaining</b> value with your mount's value — they should be close</li>
+</ol>
+<p>A significant discrepancy (more than a few minutes) indicates your mount's internal calculation may be drifting or using incorrect coordinates.</p>
+
+<hr>
+
+<h2 id="backup">Backup &amp; Sync</h2>
+<p>Go to <b>Settings → Backup &amp; Sync</b> to export and import all your data as a single JSON file.</p>
+
+<h3>What is included</h3>
+<ul>
+  <li>All locations (with horizon masks and min altitude) and equipment configurations</li>
+  <li>Night Info targets and My Targets (saved framings, statuses and Capture Advice)</li>
+  <li>Saved queries and archived target lists</li>
+  <li>AI descriptions and emission-line analyses, so they do not need to be requested or measured again</li>
+  <li>Preferences (list size, Wikipedia/Framing Simulator toggles, Color/Red choices, Moon Separation Thresholds), the assisted/non-assisted mode, the LLM provider and your chosen Claude model</li>
+</ul>
+<p>Not included: your Claude API key (for security), the API usage history, and the search-result list currently on screen. Assisted mode is only applied on a device that already has an API key.</p>
+
+<figure><img src="help-img/backup.jpg" alt="Backup and Sync settings" loading="lazy"><figcaption>Settings → Backup &amp; Sync.</figcaption></figure>
+
+<h3>Exporting</h3>
+<p>Tap <b>⬇ Export Backup</b>. The file is named <i>sap-backup-YYYY-MM-DD.json</i>. On supported browsers, a save dialog lets you choose the destination directly (e.g. iCloud Drive). On Safari iOS, the file opens in a new tab — tap <b>Share → Save to Files</b> to save it to iCloud Drive or another location.</p>
+
+<h3>Importing</h3>
+<p>Tap <b>⬆ Import Backup</b> and select a backup file. The import uses a <b>merge strategy</b>: each item is compared by its last-modified timestamp, and the more recently modified version wins. Nothing is deleted — items present on the device but absent from the backup are kept. Saved queries and archived lists are added when new; AI descriptions and analyses keep the most recent version for each target; preference changes are merged.</p>
+<p>The site and equipment that were active on the exporting device are applied only on a device that has not chosen one yet.</p>
+<p>A confirmation toast reports what changed: <i>Locations: +2 new, 1 updated · Equipment: already up to date</i>.</p>
+
+<h3>Syncing between devices</h3>
+<ol style="padding-left:20px;margin:6px 0 10px">
+  <li style="font-size:14px;color:#c0c0d8;margin-bottom:4px">Export on device A → save to iCloud Drive (or AirDrop to device B)</li>
+  <li style="font-size:14px;color:#c0c0d8;margin-bottom:4px">Import on device B → only newer changes are applied</li>
+</ol>
+<p>The <b>Last export</b> and <b>Last import</b> timestamps in Settings help you track when each device was last synced.</p>
+
+<hr>
+
+<h2 id="database">Local Database</h2>
+<p>The app includes a local catalog of <b>19,092 deep sky objects</b> from 12 professional astronomical catalogs. No internet connection is needed for target selection.</p>
+<p>Go to <b>Settings → Local Database</b> to see a breakdown by object type with source catalogs.</p>
+<p>Source catalogs include OpenNGC (NGC/IC), Sharpless, van den Bergh, Cederblad, RCW, Barnard, LDN, LBN, Green SNR, Strasbourg-ESO Planetary Nebulae, Dias Open Clusters, and Mandel-Wilson IFN.</p>
+
+<div class="note"><b>About the data.</b> The catalog was built from publicly available data published online (VizieR/CDS, OpenNGC and the source catalogs listed above), and the sky images and narrowband measurements come from public surveys. These sources are reliable but not perfect: some objects are historically misclassified, and sizes and positions can be approximate. The quality of the results in Smart Astro Planner depends directly on this data, so always double-check a target before committing several nights to it.</div>
+<hr>
+
+<h2 id="tips">Tips &amp; Best Practices</h2>
+<ul>
+  <li>Use <b>Must Include</b> for targets you already know you want — partial name matching means "Veil" adds all Veil Nebula components.</li>
+  <li>Targets showing <span class="badge-exc">EXC</span> only in early weeks are setting quickly — prioritize them first.</li>
+  <li>Check the <b>Altitude Profile</b> chart — a target can be EXC but only above your minimum altitude for a short window.</li>
+  <li>Use <b>Best Season</b> to decide if a target is worth imaging now or better saved for another time of year.</li>
+  <li>Save a framing to <b>My Targets</b> as soon as you like it — it is much faster to pick up again than re-running a search and re-finding the same object.</li>
+  <li>Set <b>Moon Separation Thresholds</b> in Settings once, per filter — after that, a glance at the Altitude Profile's colored Moon line tells you which filters are usable at any hour, no math required.</li>
+  <li>Create saved queries for recurring searches — "Summer Narrowband", "Winter Galaxies", "Next Target (1 week)".</li>
+  <li>Give archived lists descriptive names like "Cygnus Deep SHO — Sep 2026" rather than dates alone.</li>
+  <li>Generating target lists is instant and free — tap <b>New Target List</b> as many times as you want to re-roll.</li>
+  <li>Use <b>Open in browser</b> in the Help tab to keep this guide open alongside the app.</li>
+  <li>Stuck on a specific card? Look for the small <b>?</b> button next to its title (Weekly Visibility, Framing, Altitude Profile, Best Season, My Targets, Night Info, Backup &amp; Sync) — it opens the exact matching part of this guide, right where you are, no need to switch tabs.</li>
+  <li>For anything broader — "how do I…", "why is…" — tap the floating <b>❓</b> button (bottom-right, any tab) to ask a free-form question. It answers from this guide (in assisted mode, a few cents per question).</li>
+</ul>
+
+<hr>
+<h2 id="support">How to Get Support</h2>
+<p>The developer offers support for this app on the <b>Astro Dev Hub</b> Discord server — join with this invite link: <a href="https://discord.gg/bwkWKcajRM" target="_blank" rel="noopener">https://discord.gg/bwkWKcajRM</a></p>
+
+<hr>
+<p style="font-size:12px;color:#333355;text-align:center">Smart Astro Planner — a project by Crepusculum (crepusculum.space)<br>AI powered by Claude (Anthropic) · Object catalog from VizieR/CDS, OpenNGC, Wikipedia, and Simbad</p>
+
+</div>
+</body>
+</html>
