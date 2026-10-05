@@ -52,30 +52,48 @@ The app fetches these from the user's browser; nothing below is stored in this r
   The images are **not public domain**: per STScI's copyright notice they are copyright Caltech (POSS-II, northern
   sky), the Anglo-Australian Observatory Board / UK SERC-PPARC (southern surveys) and AURA/STScI (the rest),
   "distributed by agreement" (https://archive.stsci.edu/dss/copyright.html). CDS's own HiPS compilation is
-  labelled ODbL-1.0. STScI asks that the following acknowledgement accompany any publication of the images:
+  labelled ODbL-1.0. STScI's current acknowledgement text for the DSS products
+  (https://archive.stsci.edu/publishing/mission-acknowledgements — to be selected "as appropriate" for the
+  surveys used; since the app can show any part of the sky, all four paragraphs are reproduced):
 
-  > The Digitized Sky Surveys were produced at the Space Telescope Science Institute under U.S. Government
+  > The Digitized Sky Survey was produced at the Space Telescope Science Institute under U.S. Government
   > grant NAG W-2166. The images of these surveys are based on photographic data obtained using the Oschin
   > Schmidt Telescope on Palomar Mountain and the UK Schmidt Telescope. The plates were processed into the
-  > present compressed digital form with the permission of these institutions. The National Geographic
-  > Society - Palomar Observatory Sky Atlas (POSS-I) was made by the California Institute of Technology with
-  > grants from the National Geographic Society. The Second Palomar Observatory Sky Survey (POSS-II) was made
-  > by the California Institute of Technology with funds from the National Science Foundation, the National
-  > Geographic Society, the Sloan Foundation, the Samuel Oschin Foundation, and the Eastman Kodak Corporation.
-  > The Oschin Schmidt Telescope is operated by the California Institute of Technology and Palomar
-  > Observatory. The UK Schmidt Telescope was operated by the Royal Observatory Edinburgh, with funding from
-  > the UK Science and Engineering Research Council (later the UK Particle Physics and Astronomy Research
-  > Council), until 1988 June, and thereafter by the Anglo-Australian Observatory. The blue plates of the
-  > southern Sky Atlas and its Equatorial Extension (together known as the SERC-J), as well as the Equatorial
-  > Red (ER), and the Second Epoch [red] Survey (SES) were all taken with the UK Schmidt. Supplemental funding
-  > for sky-survey work at the ST ScI is provided by the European Southern Observatory.
+  > present compressed digital form with the permission of these institutions.
+  >
+  > The National Geographic Society - Palomar Observatory Sky Atlas (POSS-I) was made by the California
+  > Institute of Technology with grants from the National Geographic Society.
+  >
+  > The Second Palomar Observatory Sky Survey (POSS-II) was made by the California Institute of Technology
+  > with funds from the National Science Foundation, NASA, the National Geographic Society, the Sloan
+  > Foundation, the Samuel Oschin Foundation, and the Eastman Kodak Corporation. The Oschin Schmidt
+  > Telescope is operated by the California Institute of Technology and Palomar Observatory.
+  >
+  > The UK Schmidt Telescope was operated by the Royal Observatory Edinburgh, with funding from the UK
+  > Science and Engineering Research Council (later the UK Particle Physics and Astronomy Research Council),
+  > until 1988 June, and thereafter by the Anglo-Australian Observatory. The blue plates of the southern Sky
+  > Atlas and its Equatorial Extension (together known as the SERC-J), the near-IR plates (SERC-I), as well
+  > as the Equatorial Red (ER), and the Second Epoch [red] Survey (SES) were all taken with the UK Schmidt
+  > telescope at the AAO.
 
-  Two small cropped screenshots containing DSS2 imagery are included in this repository for illustration
-  (`help-img/framing.jpg`, `help-img/target-detail.jpg`); the acknowledgement above applies to them. Do not
-  use the DSS imagery commercially without checking with the rights holders.
+  **Permission.** STScI's published data-use policy (https://archive.stsci.edu/publishing/data-use) lets
+  scientists, educators and other non-profit users use the copyrighted DSS collections "freely and without
+  restriction", asking only that the source be acknowledged; commercial or for-profit use requires written
+  permission from the copyright holders (contact archive@stsci.edu). On 2026-10-05 the STScI Archive Help
+  Desk (incident INC0226962) confirmed in writing that this project's use is considered educational and
+  allowed with only the generic attribution above, and that including sample images in this repository's
+  documentation is not a problem. A second STScI reply on the same incident repeated that non-profit,
+  non-commercial use is permitted as long as the data are attributed, and that commercial or for-profit use
+  is prohibited. (STScI's policy page also says that colour DSS images "not covered by the above use
+  policy" must be cleared with archive@stsci.edu; the request named both `CDS/P/DSS2/color` and
+  `CDS/P/DSS2/red` and was answered affirmatively.) Two small cropped screenshots containing DSS2 imagery are included for
+  illustration (`help-img/framing.jpg`, `help-img/target-detail.jpg`). **This permission is for
+  non-commercial use only** — it is one more reason this project's license is non-commercial.
 - **Narrowband data** — Northern Sky Narrowband Survey (Stefan Ziegenbalg, simg.de/nebulae3),
   CC BY-NC-SA 4.0, with Hα calibration from WHAM. Why this project stays non-commercial.
-- **CDS services** — HiPS2FITS and Simbad (CDS, Strasbourg). Please acknowledge CDS when you reuse results.
+- **CDS services** — HiPS2FITS and Simbad (CDS, Strasbourg). CDS publishes no usage restriction for HiPS2FITS
+  beyond this requested acknowledgement (https://alasky.cds.unistra.fr/hips-image-services/hips2fits):
+  "This research made use of hips2fits, a service provided by CDS." For SIMBAD and VizieR see the citations above.
 - **Wikipedia** — article summaries (CC BY-SA 4.0), shown with the source named in the card title.
   `help-img/object-info.jpg` shows the Wikipedia card for the North America Nebula, including the photograph
   "NGC 7000 + IC 5070" by gjdonatiello (Wikimedia Commons, **CC0** public-domain dedication; credit given as a courtesy).
