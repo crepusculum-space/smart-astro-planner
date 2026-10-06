@@ -438,7 +438,7 @@ function sortTargetsForList(targets) {
 function getMyTargets() { return LS.get('sap_mytargets',[]) }
 function saveMyTargets(arr) { LS.set('sap_mytargets', arr) }
 function getMode() { return LS.get('sap_mode','non-assisted') }
-const HELP_VERSION = '5.1';
+const HELP_VERSION = '5.2';
 const DEFAULT_CLAUDE_MODEL = 'claude-sonnet-4-6';
 function getClaudeModel() { return LS.get('sap_claude_model', DEFAULT_CLAUDE_MODEL) }
 function getPrefs() { return LS.get('sap_preferences',{listSize:15}) }
@@ -883,7 +883,7 @@ function renderMyTargets() {
     html += `<div class="card" style="cursor:pointer" onclick="openTargetDetail(null,'${mt.id}')">
       <div style="display:flex;gap:12px;flex-wrap:wrap">
         <div style="width:160px;height:112px;flex-shrink:0;background:#0a0a18;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center">
-          ${img ? `<img src="${img}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover">` : `<span style="font-size:11px;color:var(--mgn);text-align:center;padding:8px">Equipment removed</span>`}
+          ${img ? `<img src="${img}" alt="" loading="lazy" data-hips onerror="hipsImgFallback(this)" style="width:100%;height:100%;object-fit:cover">` : `<span style="font-size:11px;color:var(--mgn);text-align:center;padding:8px">Equipment removed</span>`}
         </div>
         <div style="flex:1;min-width:180px">
           <div class="card-title" style="margin-bottom:2px">${mt.name || mt.catalog}</div>
@@ -898,6 +898,7 @@ function renderMyTargets() {
     </div>`;
   });
   el.innerHTML = html;
+  watchHipsImages(el);
 }
 
 // ─── Target Detail ──────────────────────────────────────────
@@ -1138,6 +1139,24 @@ function moonTierColor(moonDist, thresholds, filters) {
   return { color: best[0] === 'Broadband' ? (FILTER_COLORS.L || '#cccccc') : (FILTER_COLORS[best[0]] || '#999'), label: best[0] };
 }
 
+const NARROWBAND_FILTERS = ['Hα','Ha','OIII','SII'], BROADBAND_FILTERS = ['L','R','G','B'];
+
+// Lets one equipment profile that holds every filter be judged as "narrowband only" or "broadband only"
+// (Altitude Profile → Moon line). 'all' (the default) keeps the original behavior.
+function moonBasisFilters(filters, basis) {
+  if (!filters) return filters;
+  if (basis === 'narrowband') return filters.filter(f => NARROWBAND_FILTERS.includes(f));
+  if (basis === 'broadband') return filters.filter(f => BROADBAND_FILTERS.includes(f));
+  return filters;
+}
+
+function setMoonBasis(basis) {
+  LS.set('sap_preferences', {...getPrefs(), moonBasis: basis});
+  const p = window._altParams;
+  if (!p) return;
+  updateAltChart(p.ra, p.dec, p.lat, p.lon, p.startDate, window._altWeekIdx, p.minAlt, window._altDayIdx);
+}
+
 function updateAltChart(ra, dec, lat, lon, startDate, weekIdx, minAlt, dayIdx) {
   if (!minAlt) minAlt = getListMinAlt();
   if (weekIdx === null || weekIdx === undefined) weekIdx = window._altWeekIdx || 0;
@@ -1243,7 +1262,11 @@ function updateAltChart(ra, dec, lat, lon, startDate, weekIdx, minAlt, dayIdx) {
   // at that Moon distance, per the user's configured thresholds (Settings → Preferences). Falls back
   // to a single plain-grey line when no threshold applies to this equipment's filters.
   const moonThresholds = getPrefs().moonThresholds;
-  const moonFilters = window._detailEq?.filters;
+  const eqFilters = window._detailEq?.filters;
+  const hasNB = !!eqFilters?.some(f => NARROWBAND_FILTERS.includes(f));
+  const hasBB = !!eqFilters?.some(f => BROADBAND_FILTERS.includes(f));
+  const moonBasis = (hasNB && hasBB) ? (getPrefs().moonBasis || 'all') : 'all';
+  const moonFilters = moonBasisFilters(eqFilters, moonBasis);
   const tiers = points.map(p => moonTierColor(p.moonDist, moonThresholds, moonFilters));
   const moonActive = tiers.some(Boolean);
   const dashAttr = moonDash==='none' ? '' : ` stroke-dasharray="${moonDash}"`;
@@ -1309,14 +1332,19 @@ function updateAltChart(ra, dec, lat, lon, startDate, weekIdx, minAlt, dayIdx) {
 
   const legendEl = document.getElementById('alt-moon-legend');
   if (legendEl) {
-    if (!moonActive) { legendEl.innerHTML = ''; }
+    const anyThreshold = ['Ha','OIII','SII','broadband'].some(k => moonThresholds?.[k] != null);
+    const showBasis = hasNB && hasBB && anyThreshold;
+    if (!moonActive && !showBasis) { legendEl.innerHTML = ''; }
     else {
       const dot = (color, label) => `<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--text-dim)"><span style="width:9px;height:9px;border-radius:50%;background:${color};display:inline-block"></span>${label}</span>`;
-      legendEl.innerHTML = `<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+      const basisLabels = {all:'All filters', narrowband:'Narrowband', broadband:'Broadband'};
+      const selector = showBasis ? `<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px"><span style="font-size:11px;color:var(--text-dim)">Moon line based on</span><div class="segmented" style="width:auto">${Object.keys(basisLabels).map(b => `<button class="${moonBasis===b?'active':''}" onclick="setMoonBasis('${b}')">${basisLabels[b]}</button>`).join('')}</div></div>` : '';
+      const body = moonActive ? `<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
         ${dot(MOON_TIER_GREEN,'All filters OK')}
         ${dot(MOON_TIER_DANGER,'None OK')}
-      </div>
-      <p style="font-size:11px;color:var(--text-dim);margin-top:4px">Otherwise, the line takes the color of the most demanding filter still usable — e.g. an OIII-colored segment means OIII, and anything easier, is fair game.</p>`;
+      </div>${moonBasis === 'broadband' ? '' : `<p style="font-size:11px;color:var(--text-dim);margin-top:4px">Otherwise, the line takes the color of the most demanding filter still usable — e.g. an OIII-colored segment means OIII, and anything easier, is fair game.</p>`}`
+        : `<p style="font-size:11px;color:var(--text-dim)">No ${basisLabels[moonBasis].toLowerCase()} threshold is set — add one in Settings → Preferences.</p>`;
+      legendEl.innerHTML = selector + body;
     }
   }
 
@@ -1514,9 +1542,15 @@ function renderWikiResult(section, d) {
   section.innerHTML = html;
 }
 
-const HIPS_URL = 'https://alasky.cds.unistra.fr/hips-image-services/hips2fits';
-function hipsImageUrl(hips, ra, dec, fovDeg, w, h) {
-  return `${HIPS_URL}?hips=${encodeURIComponent(hips)}&width=${w}&height=${h}&fov=${fovDeg.toFixed(3)}&ra=${ra.toFixed(5)}&dec=${dec.toFixed(5)}&projection=TAN&format=jpg`;
+// CDS runs the HiPS2FITS service on two hosts with the same API. The primary one has been seen hanging
+// without any answer (no error, so an <img> just spins), so every call tries the next host after a timeout
+// and the host that last worked is remembered for the rest of the session.
+const HIPS_HOSTS = ['https://alasky.cds.unistra.fr', 'https://alaskybis.cds.unistra.fr'];
+const HIPS_PATH = '/hips-image-services/hips2fits';
+const HIPS_TIMEOUT_MS = 12000;
+let _hipsHost = 0;
+function hipsImageUrl(hips, ra, dec, fovDeg, w, h, hostIdx = _hipsHost) {
+  return `${HIPS_HOSTS[hostIdx]}${HIPS_PATH}?hips=${encodeURIComponent(hips)}&width=${w}&height=${h}&fov=${fovDeg.toFixed(3)}&ra=${ra.toFixed(5)}&dec=${dec.toFixed(5)}&projection=TAN&format=jpg`;
 }
 
 function skyViewDeg(t, fov) {
@@ -1574,17 +1608,52 @@ function loadSkyFrameImage(triedFallback, soft) {
   if (!S || !img) return;
   const token = ++S.token, hips = S.hips;
   if (!soft) { msg.style.display = 'flex'; msg.innerHTML = '<div class="loading"></div>'; img.style.display = 'none'; }
-  const n = new Image();
-  n.onload = () => {
-    if (token !== S.token) return;
-    img.src = n.src; img.style.transform = ''; img.style.display = 'block'; msg.style.display = 'none';
+  const timeouts = [];
+  const tryHost = attempt => {
+    const hostIdx = (_hipsHost + attempt) % HIPS_HOSTS.length;
+    const n = new Image();
+    let settled = false, timer = null;
+    const fail = reason => {
+      if (settled) return;
+      settled = true; clearTimeout(timer); n.onload = n.onerror = null;
+      if (token !== S.token) return;
+      timeouts.push(reason === 'timeout');
+      if (attempt + 1 < HIPS_HOSTS.length) { tryHost(attempt + 1); return; }
+      // Both hosts failed. If they merely did not answer, the service is down: switching surveys would not help.
+      const serviceDown = timeouts.every(Boolean);
+      if (!serviceDown && hips.endsWith('/color') && !triedFallback) { S.hips = 'CDS/P/DSS2/red'; markSurveyBtn('Red'); loadSkyFrameImage(true, soft); return; }
+      img.style.display = 'none'; msg.style.display = 'flex';
+      msg.textContent = serviceDown ? 'The sky image service (CDS) is not responding right now — try again later.' : 'Image unavailable';
+    };
+    n.onload = () => {
+      if (settled) return;
+      settled = true; clearTimeout(timer);
+      _hipsHost = hostIdx;
+      if (token !== S.token) return;
+      img.src = n.src; img.style.transform = ''; img.style.display = 'block'; msg.style.display = 'none';
+    };
+    n.onerror = () => fail('error');
+    timer = setTimeout(() => fail('timeout'), HIPS_TIMEOUT_MS);
+    n.src = hipsImageUrl(hips, S.ra, S.dec, S.wdeg, 900, 600, hostIdx);
   };
-  n.onerror = () => {
-    if (token !== S.token) return;
-    if (hips.endsWith('/color') && !triedFallback) { S.hips = 'CDS/P/DSS2/red'; markSurveyBtn('Red'); loadSkyFrameImage(true, soft); return; }
-    img.style.display = 'none'; msg.style.display = 'flex'; msg.textContent = 'Image unavailable';
-  };
-  n.src = hipsImageUrl(hips, S.ra, S.dec, S.wdeg, 900, 600);
+  tryHost(0);
+}
+
+// <img> thumbnails (My Targets): swap to the other CDS host once if the first one errors or never answers.
+function hipsImgFallback(img) {
+  const tried = +(img.dataset.hipsTried || 0);
+  if (tried >= HIPS_HOSTS.length - 1) return;
+  const cur = HIPS_HOSTS.findIndex(h => img.src.startsWith(h));
+  if (cur < 0) return;
+  img.dataset.hipsTried = tried + 1;
+  img.src = img.src.replace(HIPS_HOSTS[cur], HIPS_HOSTS[(cur + 1) % HIPS_HOSTS.length]);
+}
+function watchHipsImages(root) {
+  root.querySelectorAll('img[data-hips]').forEach(img => setTimeout(() => {
+    const r = img.getBoundingClientRect();
+    const visible = r.bottom > 0 && r.top < window.innerHeight;
+    if (visible && !(img.complete && img.naturalWidth)) hipsImgFallback(img);
+  }, HIPS_TIMEOUT_MS));
 }
 
 // Inverse TAN projection: sky position of the image pixel at (px, py) from the image center (py down).
@@ -1704,10 +1773,17 @@ const LINE_MIN_R = 8, LINE_PEAK_MIN_R = 25, LINE_STRONG = 0.25, LINE_WEAK = 0.10
 
 function getLineAnalyses() { return LS.get('sap_lines', {}); }
 
-async function fetchFitsPixels(url) {
-  const r = await fetch(url);
-  if (!r.ok) throw new Error('HTTP ' + r.status);
-  const buf = await r.arrayBuffer();
+async function fetchFitsPixels(url, timeoutMs = 20000) {
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), timeoutMs);
+  let buf;
+  try {
+    const r = await fetch(url, { signal: ctl.signal });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    buf = await r.arrayBuffer();
+  } catch (e) {
+    throw e.name === 'AbortError' ? new Error('the sky data service did not answer in time') : e;
+  } finally { clearTimeout(timer); }
   const u8 = new Uint8Array(buf);
   let off = 0, hdr = '', done = false;
   const dec = new TextDecoder('ascii');
@@ -1768,6 +1844,19 @@ function recommendPalette(vals) {
   return { tiers, text };
 }
 
+async function fetchHipsFits(hips, ra, dec, wdeg, W, H) {
+  let lastErr;
+  for (let a = 0; a < HIPS_HOSTS.length; a++) {
+    const hostIdx = (_hipsHost + a) % HIPS_HOSTS.length;
+    try {
+      const img = await fetchFitsPixels(hipsImageUrl(hips, ra, dec, wdeg, W, H, hostIdx).replace('format=jpg', 'format=fits'));
+      _hipsHost = hostIdx;
+      return img;
+    } catch (e) { lastErr = e; }
+  }
+  throw lastErr;
+}
+
 async function analyzeFraming() {
   const S = window._sky, box = document.getElementById('lines-box');
   if (!S || !box) return;
@@ -1778,7 +1867,7 @@ async function analyzeFraming() {
   try {
     const mask = frameMask(W, H, snap.wdeg, S.fov, snap.angle);
     const res = await Promise.all(Object.entries(NSNS_BANDS).map(async ([b, hips]) => {
-      const img = await fetchFitsPixels(hipsImageUrl(hips, snap.ra, snap.dec, snap.wdeg, W, H).replace('format=jpg', 'format=fits'));
+      const img = await fetchHipsFits(hips, snap.ra, snap.dec, snap.wdeg, W, H);
       const vals = [];
       for (let i = 0; i < mask.length; i++) if (mask[i] && isFinite(img.data[i])) vals.push(img.data[i]);
       return [b, vals];
