@@ -42,7 +42,7 @@ figure{margin:14px 0 18px}figure img{display:block;width:100%;height:auto;border
 <div class="help-wrap">
 
 <div class="help-title">Smart Astro Planner</div>
-<div class="help-subtitle">Help &amp; Getting Started Guide · v3.2</div>
+<div class="help-subtitle">Help &amp; Getting Started Guide · v3.3</div>
 
 <div class="toc">
   <div class="toc-title">Contents</div>
@@ -303,9 +303,14 @@ figure{margin:14px 0 18px}figure img{display:block;width:100%;height:auto;border
 </ul>
 <p>The blue filled area shows when the target is above the location's minimum imaging altitude. A dashed line shows the <b>Moon's angular separation</b> from the target on the same 0–90° scale — the dash pattern reflects lunar phase (dotted = new moon, solid = full moon).</p>
 <p>Use the <b>slider</b> below the chart to navigate between weeks. Swipe on the chart, or tap <b>‹ ›</b>, to toggle between <b>WEEK</b> mode (weekly overview) and <b>DAY</b> mode (day-by-day within the selected week) — the slider then moves through weeks or days depending on the current mode.</p>
-<h3>Color-coding the Moon line by filter</h3>
-<p>If you set <b>Moon Separation Thresholds</b> in <b>Settings → Preferences</b> (a minimum comfortable angular distance, in degrees, for Hα, OIII, SII and/or Broadband), the Moon line switches from plain grey to a color that tells you what's actually shootable at each point in the night — using only the filters present on <i>this target's own equipment</i>. Green means every relevant filter is fine; the muted dark red means none are; otherwise the line takes the color of the most demanding filter still usable — an OIII-colored segment means OIII, and anything easier (Hα, SII), is fair game. Leave all four fields blank to keep the line plain grey, as before.</p>
-<p>If your equipment holds <i>both</i> narrowband and broadband filters, a <b>Moon line based on</b> selector appears under the chart: <b>All filters</b> (the default), <b>Narrowband</b> or <b>Broadband</b>. It lets you keep a single equipment profile with every filter and still see, in one tap, how the night looks for narrowband only or for broadband only. The choice is remembered and included in the backup. If you pick a family for which no threshold is set, the chart tells you so.</p>
+<h3>Which filters can I shoot? (the filter badges)</h3>
+<p>The dashed grey line is the Moon's angular distance from the target — it only shows <i>where the Moon is</i>. To know <i>what that means for your filters</i>, set <b>Moon Separation Thresholds</b> in <b>Settings → Preferences</b>: the minimum distance, in degrees, at which you are comfortable shooting Hα, OIII, SII and/or Broadband (one shared value for L, R, G and B). Under the chart you then get one badge per filter of <i>this target's own equipment</i>, with its threshold:</p>
+<ul>
+  <li><b>Full color</b> — the Moon stays at least that far away for the whole astronomical night. You can shoot it.</li>
+  <li><b>Dashed and faded, with ◐</b> — usable for <i>part</i> of the night only. The hours are listed just below (for example "OIII: 18:21–00:11").</li>
+  <li><b>Grey</b> — the Moon is too close all night for that filter.</li>
+</ul>
+<p>The line under the badges also tells you how far the Moon is during that night (for example "120–122°"). The badges follow the slider: move it through the weeks, or switch to the day-by-day view, and they recalculate for the night you are looking at. A filter whose threshold you left blank is not shown (and is listed as such), and if you leave all four fields blank the badges are hidden.</p>
 <div class="note">The chart follows your current framing, not just the catalog position: if you drag the image in the Framing card to a different spot, the Altitude Profile (and Best Season below) recalculates for that exact center as soon as you release it.</div>
 
 <hr>
@@ -466,7 +471,7 @@ figure{margin:14px 0 18px}figure img{display:block;width:100%;height:auto;border
   <li>Check the <b>Altitude Profile</b> chart — a target can be EXC but only above your minimum altitude for a short window.</li>
   <li>Use <b>Best Season</b> to decide if a target is worth imaging now or better saved for another time of year.</li>
   <li>Save a framing to <b>My Targets</b> as soon as you like it — it is much faster to pick up again than re-running a search and re-finding the same object.</li>
-  <li>Set <b>Moon Separation Thresholds</b> in Settings once, per filter — after that, a glance at the Altitude Profile's colored Moon line tells you which filters are usable at any hour, no math required.</li>
+  <li>Set <b>Moon Separation Thresholds</b> in Settings once, per filter — after that, a glance at the filter badges under the Altitude Profile tells you which filters the Moon leaves usable that night, no math required.</li>
   <li>Create saved queries for recurring searches — "Summer Narrowband", "Winter Galaxies", "Next Target (1 week)".</li>
   <li>Give archived lists descriptive names like "Cygnus Deep SHO — Sep 2026" rather than dates alone.</li>
   <li>Generating target lists is instant and free — tap <b>New Target List</b> as many times as you want to re-roll.</li>
