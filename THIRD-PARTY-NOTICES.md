@@ -37,7 +37,7 @@ because it is an adaptation of OpenNGC:
   - Barnard dark nebulae — VII/220A
   - LDN: Lynds (1962) — VII/7A
   - LBN: Lynds (1965) — VII/9
-  - D. A. Green, Catalogue of Galactic Supernova Remnants — VII/297
+  - D. A. Green, Catalogue of Galactic Supernova Remnants (2025, October 2024 version) — VII/297
   - Strasbourg-ESO Catalogue of Galactic Planetary Nebulae: Acker et al. (1992) — V/84
   - Open clusters, DAML02: Dias et al. (2002) — B/ocl
   - Integrated Flux Nebulae MW1–MW9: Mandel & Wilson (entered by hand)
@@ -91,9 +91,18 @@ The app fetches these from the user's browser; nothing below is stored in this r
   non-commercial use only** — it is one more reason this project's license is non-commercial.
 - **Narrowband data** — Northern Sky Narrowband Survey (Stefan Ziegenbalg, simg.de/nebulae3),
   CC BY-NC-SA 4.0, with Hα calibration from WHAM. Why this project stays non-commercial.
-- **CDS services** — HiPS2FITS and Simbad (CDS, Strasbourg). CDS publishes no usage restriction for HiPS2FITS
-  beyond this requested acknowledgement (https://alasky.cds.unistra.fr/hips-image-services/hips2fits):
-  "This research made use of hips2fits, a service provided by CDS." For SIMBAD and VizieR see the citations above.
+- **CDS services** — HiPS2FITS, SIMBAD and VizieR (CDS, Strasbourg). Requested acknowledgement for HiPS2FITS:
+  "This research made use of [hips2fits](https://alasky.cds.unistra.fr/hips-image-services/hips2fits), a
+  service provided by CDS." (the link was specifically requested by CDS). For SIMBAD and VizieR see the
+  citations above. CDS (reply of 2026-10-07) also asks users to use HiPS2FITS sensibly — **no simultaneous or
+  heavy requests** (the app queries it one request at a time, with small cutouts) — and reminds that DSS2
+  images carry their own copyright (see above). CDS's licensing summary: SIMBAD content and the HiPS
+  compilations are ODbL-1.0 (share-alike applies to a *database* that integrates or extends that data; this
+  project stores and redistributes none of it — SIMBAD and HiPS are queried live), while VizieR catalogues
+  are distributed under their original license or CC-BY-4.0, so each catalogue's own ReadMe must be checked.
+  On 2026-10-07 the ReadMe of all ten VizieR catalogues used here (VII/20, VII/21, VII/231, VII/216, VII/220A,
+  VII/7A, VII/9, VII/297, V/84, B/ocl) was read: none states a copyright reservation or a commercial
+  restriction. Access is best-effort (no 24/7 guarantee).
 - **Wikipedia** — article summaries (CC BY-SA 4.0), shown with the source named in the card title.
   `help-img/object-info.jpg` shows the Wikipedia card for the North America Nebula, including the photograph
   "NGC 7000 + IC 5070" by gjdonatiello (Wikimedia Commons, **CC0** public-domain dedication; credit given as a courtesy).

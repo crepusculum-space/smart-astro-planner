@@ -438,7 +438,8 @@ function sortTargetsForList(targets) {
 function getMyTargets() { return LS.get('sap_mytargets',[]) }
 function saveMyTargets(arr) { LS.set('sap_mytargets', arr) }
 function getMode() { return LS.get('sap_mode','non-assisted') }
-const HELP_VERSION = '5.3';
+const HELP_VERSION = '5.6';
+const APP_VERSION = '2026-10-07';
 const DEFAULT_CLAUDE_MODEL = 'claude-sonnet-4-6';
 function getClaudeModel() { return LS.get('sap_claude_model', DEFAULT_CLAUDE_MODEL) }
 function getPrefs() { return LS.get('sap_preferences',{listSize:15}) }
@@ -883,7 +884,7 @@ function renderMyTargets() {
     html += `<div class="card" style="cursor:pointer" onclick="openTargetDetail(null,'${mt.id}')">
       <div style="display:flex;gap:12px;flex-wrap:wrap">
         <div style="width:160px;height:112px;flex-shrink:0;background:#0a0a18;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center">
-          ${img ? `<img src="${img}" alt="" loading="lazy" data-hips onerror="hipsImgFallback(this)" style="width:100%;height:100%;object-fit:cover">` : `<span style="font-size:11px;color:var(--mgn);text-align:center;padding:8px">Equipment removed</span>`}
+          ${img ? `<img data-hips-src="${img}" alt="" style="width:100%;height:100%;object-fit:cover">` : `<span style="font-size:11px;color:var(--mgn);text-align:center;padding:8px">Equipment removed</span>`}
         </div>
         <div style="flex:1;min-width:180px">
           <div class="card-title" style="margin-bottom:2px">${mt.name || mt.catalog}</div>
@@ -898,7 +899,7 @@ function renderMyTargets() {
     </div>`;
   });
   el.innerHTML = html;
-  watchHipsImages(el);
+  loadHipsThumbs(el);
 }
 
 // ─── Target Detail ──────────────────────────────────────────
@@ -1045,10 +1046,10 @@ function openTargetDetail(tid, mtId) {
         <button class="framing-nav framing-nav-right" onclick="navigateAltDay(1)">›</button>
         <div id="alt-chart-container"></div>
       </div>
+      <div id="alt-moon-legend" style="margin-top:8px"></div>
       <input type="range" min="0" max="${detailNw-1}" value="0" id="alt-chart-slider" data-maxweek="${detailNw-1}" style="width:100%;margin-top:8px"
         oninput="onAltSliderInput(this.value)">
-      <div id="alt-moon-legend" style="margin-top:6px"></div>
-      <p style="font-size:11px;color:var(--text-dim);margin-top:6px">- - - Dashed line shows the Moon's angular separation from the target in degrees, plotted on the same 0-90° scale as altitude — not the Moon's own altitude. Dash pattern reflects that night's moon phase: dotted = new moon, longer dashes = fuller moon, solid = full moon. Swipe (or ‹ ›) to switch between week and day-by-day view; the slider moves through weeks or days depending on the current view.</p>
+      <p style="font-size:11px;color:var(--text-dim);margin-top:6px">- - - Dashed line shows the Moon's angular separation from the target in degrees, plotted on the same 0-90° scale as altitude — not the Moon's own altitude. Dash pattern reflects that night's moon phase: dotted = new moon, longer dashes = fuller moon, solid = full moon. Filter badges (once you set Moon Separation Thresholds in Settings): full color = usable all night, dashed ◐ = usable only part of the night, grey = Moon too close. Swipe (or ‹ ›) to switch between week and day-by-day view; the slider moves through weeks or days depending on the current view.</p>
     </div>`;
   }
 
@@ -1305,10 +1306,9 @@ function updateAltChart(ra, dec, lat, lon, startDate, weekIdx, minAlt, dayIdx) {
       const base = 'display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:2px 9px;border-radius:10px;margin:0 6px 6px 0;';
       const chip = it => {
         const col = FILTER_COLORS[it.filter] || '#3a5a8a';
-        const th = `<span style="font-weight:400;opacity:.85">${it.threshold}°</span>`;
-        if (it.state === 'full') return `<span style="${base}color:#fff;background:${col}" title="Usable all night (Moon at least ${it.threshold}° away)">${it.filter} ${th}</span>`;
-        if (it.state === 'partial') return `<span style="${base}color:#fff;background:${col};opacity:.6;border:1px dashed #fff" title="Usable for part of the night only (Moon at least ${it.threshold}° away)">${it.filter} ${th} ◐</span>`;
-        return `<span style="${base}color:#777;background:#2a2a3a" title="Moon too close all night (needs at least ${it.threshold}°)">${it.filter} ${th}</span>`;
+        if (it.state === 'full') return `<span style="${base}color:#fff;background:${col}" title="Usable all night (Moon at least ${it.threshold}° away)">${it.filter}</span>`;
+        if (it.state === 'partial') return `<span style="${base}color:#fff;background:${col};opacity:.6;border:1px dashed #fff" title="Usable for part of the night only (Moon at least ${it.threshold}° away)">${it.filter} ◐</span>`;
+        return `<span style="${base}color:#777;background:#2a2a3a" title="Moon too close all night (needs at least ${it.threshold}°)">${it.filter}</span>`;
       };
       const partial = new Map();
       st.items.filter(it => it.state === 'partial').forEach(it => {
@@ -1318,7 +1318,7 @@ function updateAltChart(ra, dec, lat, lon, startDate, weekIdx, minAlt, dayIdx) {
       const partialTxt = [...partial.entries()].map(([when, names]) => `${names.join(', ')}: ${when}`).join(' · ');
       const dim = 'font-size:11px;color:var(--text-dim);margin-top:2px';
       legendEl.innerHTML = `<div style="display:flex;flex-wrap:wrap;align-items:center">${st.items.map(chip).join('')}</div>
-        <p style="${dim}">Moon is ${lo === hi ? `about ${lo}°` : `${lo}–${hi}°`} from the target during astronomical night. Color = usable all night · dashed ◐ = usable only part of the night · grey = Moon too close. The number is the minimum distance you set for that filter.</p>
+        <p style="${dim}">Moon ${lo === hi ? `about ${lo}°` : `${lo}–${hi}°`} from the target during astronomical night.</p>
         ${partialTxt ? `<p style="${dim}">Usable part of the night — ${partialTxt}</p>` : ''}
         ${st.missing.length ? `<p style="${dim}">Not shown (no threshold set in Settings → Preferences): ${st.missing.join(', ')}</p>` : ''}`;
     }
@@ -1539,7 +1539,7 @@ function initSkyFrame(t, fov, mtOpts) {
   const saved = getPrefs().skySurvey?.[t.type];
   const hips = saved || (redTypes.includes(t.type) ? 'CDS/P/DSS2/red' : 'CDS/P/DSS2/color');
   const ra0 = mtOpts ? mtOpts.ra : t.ra, dec0 = mtOpts ? mtOpts.dec : t.dec, angle0 = mtOpts ? mtOpts.angle : 0;
-  window._sky = { t, fov, hips, angle: angle0, ra: ra0, dec: dec0, wdeg: skyViewDeg(t, fov), token: 0, drag: null,
+  window._sky = { t, fov, hips, angle: angle0, ra: ra0, dec: dec0, wdeg: skyViewDeg(t, fov), token: 0, drag: null, imageOn: getPrefs().skyLoad !== 'demand',
     mtId: mtOpts ? mtOpts.mtId : null, linesKey: mtOpts ? ('mt:' + mtOpts.mtId) : (t.catalog || t.name) };
   const box = document.getElementById('sky-frame-box');
   box.addEventListener('pointerdown', skyPointerDown);
@@ -1564,7 +1564,7 @@ function updateSkyInfo() {
   if (r) r.style.display = moved ? '' : 'none';
   const n = document.getElementById('sky-frame-note');
   renderLinesBox();
-  if (n) n.innerHTML = `Blue rectangle = your sensor's field of view (${S.fov.w.toFixed(2)}° × ${S.fov.h.toFixed(2)}°) at true scale. Drag the image to move the framing. North is up, East is left. Image: Digitized Sky Survey (STScI/NASA), processed by CDS HiPS2FITS — <a href="https://archive.stsci.edu/publishing/mission-acknowledgements" target="_blank" rel="noopener" style="color:var(--accent)">acknowledgement</a> · <a href="https://archive.stsci.edu/dss/copyright.html" target="_blank" rel="noopener" style="color:var(--accent)">copyright</a>.${S.mtId ? '' : ' Double-click (mouse) or long-press (touch) anywhere on the image to see what deep-sky objects are there.'}`;
+  if (n) n.innerHTML = !S.imageOn ? `Blue rectangle = your sensor's field of view (${S.fov.w.toFixed(2)}° × ${S.fov.h.toFixed(2)}°) at true scale; the dashed outline is the target at its catalog size, which can be approximate. The sky image is not loaded (Settings → Sky image in Framing: On demand) — drag to reframe, then tap Load sky image. North is up, East is left.${S.mtId ? '' : ' Double-click (mouse) or long-press (touch) anywhere to see what deep-sky objects are there.'}` : `Blue rectangle = your sensor's field of view (${S.fov.w.toFixed(2)}° × ${S.fov.h.toFixed(2)}°) at true scale. Drag the image to move the framing. North is up, East is left. Image: Digitized Sky Survey (STScI/NASA), processed by CDS HiPS2FITS — <a href="https://archive.stsci.edu/publishing/mission-acknowledgements" target="_blank" rel="noopener" style="color:var(--accent)">acknowledgement</a> · <a href="https://archive.stsci.edu/dss/copyright.html" target="_blank" rel="noopener" style="color:var(--accent)">copyright</a>.${S.mtId ? '' : ' Double-click (mouse) or long-press (touch) anywhere on the image to see what deep-sky objects are there.'}`;
   persistMtFrame();
   recalcSkyDependent();
 }
@@ -1582,16 +1582,25 @@ function persistMtFrame() {
 function loadSkyFrameImage(triedFallback, soft) {
   const S = window._sky, img = document.getElementById('sky-frame-img'), msg = document.getElementById('sky-frame-msg');
   if (!S || !img) return;
+  if (!S.imageOn) {
+    // "On demand" mode: no download — show the outline preview, unless this exact image is already cached.
+    const pv = ++S.token;
+    showSkyPreview();
+    skyImageCached().then(hit => { if (hit && pv === S.token && !S.imageOn) { S.imageOn = true; updateSkyInfo(); drawSkyOverlay(); loadSkyFrameImage(triedFallback, soft); } });
+    return;
+  }
   const token = ++S.token, hips = S.hips;
+  msg.style.alignItems = ''; msg.style.pointerEvents = '';
   if (!soft) { msg.style.display = 'flex'; msg.innerHTML = '<div class="loading"></div>'; img.style.display = 'none'; }
   const timeouts = [];
+  if (S.pendingImg) { S.pendingImg.onload = S.pendingImg.onerror = null; S.pendingImg.src = ''; S.pendingImg = null; }
   const tryHost = attempt => {
     const hostIdx = (_hipsHost + attempt) % HIPS_HOSTS.length;
     const n = new Image();
     let settled = false, timer = null;
     const fail = reason => {
       if (settled) return;
-      settled = true; clearTimeout(timer); n.onload = n.onerror = null;
+      settled = true; clearTimeout(timer); n.onload = n.onerror = null; n.src = '';
       if (token !== S.token) return;
       timeouts.push(reason === 'timeout');
       if (attempt + 1 < HIPS_HOSTS.length) { tryHost(attempt + 1); return; }
@@ -1610,26 +1619,93 @@ function loadSkyFrameImage(triedFallback, soft) {
     };
     n.onerror = () => fail('error');
     timer = setTimeout(() => fail('timeout'), HIPS_TIMEOUT_MS);
+    S.pendingImg = n;
     n.src = hipsImageUrl(hips, S.ra, S.dec, S.wdeg, 900, 600, hostIdx);
   };
   tryHost(0);
 }
 
-// <img> thumbnails (My Targets): swap to the other CDS host once if the first one errors or never answers.
-function hipsImgFallback(img) {
-  const tried = +(img.dataset.hipsTried || 0);
-  if (tried >= HIPS_HOSTS.length - 1) return;
-  const cur = HIPS_HOSTS.findIndex(h => img.src.startsWith(h));
-  if (cur < 0) return;
-  img.dataset.hipsTried = tried + 1;
-  img.src = img.src.replace(HIPS_HOSTS[cur], HIPS_HOSTS[(cur + 1) % HIPS_HOSTS.length]);
+// My Targets thumbnails: loaded ONE AT A TIME (CDS asks HiPS2FITS users to avoid simultaneous requests),
+// in page order, each with the same host fallback and timeout as the Framing image. A newer render of the
+// list supersedes an older queue.
+let _thumbRun = 0;
+async function loadHipsThumbs(root) {
+  const run = ++_thumbRun;
+  for (const img of root.querySelectorAll('img[data-hips-src]')) {
+    if (run !== _thumbRun || !img.isConnected) return;
+    await loadHipsThumb(img);
+  }
 }
-function watchHipsImages(root) {
-  root.querySelectorAll('img[data-hips]').forEach(img => setTimeout(() => {
-    const r = img.getBoundingClientRect();
-    const visible = r.bottom > 0 && r.top < window.innerHeight;
-    if (visible && !(img.complete && img.naturalWidth)) hipsImgFallback(img);
-  }, HIPS_TIMEOUT_MS));
+function loadHipsThumb(img) {
+  const url = img.dataset.hipsSrc;
+  const path = url.slice(url.indexOf(HIPS_PATH));
+  return new Promise(resolve => {
+    let attempt = 0, timer = null;
+    const finish = () => { clearTimeout(timer); img.onload = img.onerror = null; resolve(); };
+    const tryHost = () => {
+      const hostIdx = (_hipsHost + attempt) % HIPS_HOSTS.length;
+      clearTimeout(timer);
+      img.onload = () => { _hipsHost = hostIdx; finish(); };
+      img.onerror = next;
+      timer = setTimeout(next, HIPS_TIMEOUT_MS);
+      img.src = HIPS_HOSTS[hostIdx] + path;
+    };
+    const next = () => { if (++attempt < HIPS_HOSTS.length) tryHost(); else finish(); };
+    tryHost();
+  });
+}
+
+// ─── "On demand" sky image: outline preview instead of a download ───
+async function skyImageCached() {
+  const S = window._sky;
+  if (!S || !window.caches) return false;
+  try {
+    const c = await caches.open('sap-images');
+    for (let i = 0; i < HIPS_HOSTS.length; i++) if (await c.match(hipsImageUrl(S.hips, S.ra, S.dec, S.wdeg, 900, 600, i))) return true;
+  } catch {}
+  return false;
+}
+
+function showSkyPreview() {
+  const img = document.getElementById('sky-frame-img'), msg = document.getElementById('sky-frame-msg');
+  if (!img || !msg) return;
+  img.style.display = 'none';
+  msg.style.display = 'flex'; msg.style.alignItems = 'flex-end'; msg.style.pointerEvents = 'none'; msg.style.paddingBottom = '14px';
+  msg.innerHTML = '<button class="btn-primary btn-sm" style="pointer-events:auto" onpointerdown="event.stopPropagation()" onclick="loadSkyImageNow()">Load sky image</button>';
+  drawSkyOverlay();
+}
+
+function loadSkyImageNow() {
+  const S = window._sky, msg = document.getElementById('sky-frame-msg');
+  if (!S) return;
+  S.imageOn = true;
+  if (msg) msg.style.paddingBottom = '';
+  updateSkyInfo();
+  drawSkyOverlay();
+  loadSkyFrameImage();
+}
+
+// Dashed outline of the target at true scale (catalog size/PA), same projection and scale the image will have.
+function skyPreviewSVG() {
+  const S = window._sky, t = S.t;
+  const ppd = 900 / S.wdeg, cx = 450, cy = 300;
+  const arc = m => m >= 60 ? (m / 60).toFixed(1) + '°' : (m >= 10 ? Math.round(m) : m.toFixed(1)) + '′';
+  const off = skyRaDecToOffset(S.ra, S.dec, S.wdeg, t.ra, t.dec);
+  const ox = cx + off.px, oy = cy + off.py;
+  const frameArc = S.fov.w * 60;
+  let shape, label;
+  if (t.size_arcmin) {
+    const majA = t.size_arcmin, minA = t.size_min_arcmin || t.size_arcmin;
+    const rx = Math.max(4, majA / 60 / 2 * ppd), ry = Math.max(4, minA / 60 / 2 * ppd);
+    const paRad = (t.pa || 0) * Math.PI / 180, rot = Math.atan2(-Math.cos(paRad), -Math.sin(paRad)) * 180 / Math.PI;
+    shape = `<ellipse cx="${ox.toFixed(1)}" cy="${oy.toFixed(1)}" rx="${rx.toFixed(1)}" ry="${ry.toFixed(1)}" transform="rotate(${rot.toFixed(1)} ${ox.toFixed(1)} ${oy.toFixed(1)})" fill="rgba(223,230,255,.10)" stroke="#dfe6ff" stroke-width="2.5" stroke-dasharray="7,5"/>`;
+    const pct = majA / frameArc * 100;
+    label = `Target ${arc(majA)}${t.size_min_arcmin ? ' × ' + arc(minA) : ''} · about ${pct < 1 ? '<1' : Math.round(pct)}% of the frame width${2 * rx < 14 && 2 * ry < 14 ? ' — tiny in this frame' : ''}`;
+  } else {
+    shape = `<circle cx="${ox.toFixed(1)}" cy="${oy.toFixed(1)}" r="10" fill="none" stroke="#dfe6ff" stroke-width="2.5" stroke-dasharray="4,4"/><line x1="${ox-16}" y1="${oy}" x2="${ox+16}" y2="${oy}" stroke="#dfe6ff" stroke-width="1.5"/><line x1="${ox}" y1="${oy-16}" x2="${ox}" y2="${oy+16}" stroke="#dfe6ff" stroke-width="1.5"/>`;
+    label = 'Target size unknown (not in the catalog)';
+  }
+  return `<g id="sky-preview-g">${shape}</g><text x="64" y="66" fill="#fff" font-size="18" font-weight="700" style="paint-order:stroke" stroke="#000" stroke-width="4">${label}</text>`;
 }
 
 // Inverse TAN projection: sky position of the image pixel at (px, py) from the image center (py down).
@@ -1667,6 +1743,10 @@ function skyPointerMove(e) {
   }
   const img = document.getElementById('sky-frame-img');
   if (img) img.style.transform = `translate(${S.drag.dx}px, ${S.drag.dy}px)`;
+  if (!S.imageOn) {
+    const g = document.getElementById('sky-preview-g'), box = document.getElementById('sky-frame-box');
+    if (g && box) { const k = box.clientWidth / 900; g.setAttribute('transform', `translate(${(S.drag.dx / k).toFixed(1)} ${(S.drag.dy / k).toFixed(1)})`); }
+  }
 }
 
 function skyPointerUp(e) {
@@ -1678,12 +1758,13 @@ function skyPointerUp(e) {
   if (S.longPressFired) {
     S.longPressFired = false; S.drag = null;
     const img = document.getElementById('sky-frame-img'); if (img) img.style.transform = '';
+    if (!S.imageOn) drawSkyOverlay();
     return;
   }
   const k = box.clientWidth / 900;
   const mx = S.drag.dx / k, my = S.drag.dy / k;
   S.drag = null;
-  if (Math.abs(mx) + Math.abs(my) < 4) { const img = document.getElementById('sky-frame-img'); if (img) img.style.transform = ''; return; }
+  if (Math.abs(mx) + Math.abs(my) < 4) { const img = document.getElementById('sky-frame-img'); if (img) img.style.transform = ''; if (!S.imageOn) drawSkyOverlay(); return; }
   const c = skyOffsetToRaDec(S.ra, S.dec, S.wdeg, -mx, -my);
   S.ra = c.ra; S.dec = Math.max(-89.5, Math.min(89.5, c.dec));
   updateSkyInfo();
@@ -1842,12 +1923,14 @@ async function analyzeFraming() {
   const snap = { ra: S.ra, dec: S.dec, angle: S.angle, fw: S.fov.w, fh: S.fov.h, wdeg: S.wdeg };
   try {
     const mask = frameMask(W, H, snap.wdeg, S.fov, snap.angle);
-    const res = await Promise.all(Object.entries(NSNS_BANDS).map(async ([b, hips]) => {
+    // One request at a time: CDS asks HiPS2FITS users to avoid simultaneous requests.
+    const res = [];
+    for (const [b, hips] of Object.entries(NSNS_BANDS)) {
       const img = await fetchHipsFits(hips, snap.ra, snap.dec, snap.wdeg, W, H);
       const vals = [];
       for (let i = 0; i < mask.length; i++) if (mask[i] && isFinite(img.data[i])) vals.push(img.data[i]);
-      return [b, vals];
-    }));
+      res.push([b, vals]);
+    }
     const total = mask.reduce((a, v) => a + v, 0);
     const out = {};
     let minValid = 1;
@@ -1956,7 +2039,7 @@ function drawSkyOverlay() {
   const S = window._sky, svg = document.getElementById('sky-frame-svg');
   if (!S || !svg) return;
   const ppd = 900 / S.wdeg, w = S.fov.w * ppd, h = S.fov.h * ppd, cx = 450, cy = 300;
-  svg.innerHTML = `${wifOverlaySVG()}
+  svg.innerHTML = `${S.imageOn ? '' : skyPreviewSVG()}${wifOverlaySVG()}
     <g transform="rotate(${S.angle} ${cx} ${cy})">
       <rect x="${cx-w/2}" y="${cy-h/2}" width="${w}" height="${h}" fill="rgba(74,158,255,.08)" stroke="#4a9eff" stroke-width="3"/>
     </g>
@@ -2282,10 +2365,8 @@ async function fetchSimbad(t) {
   const esc = name.replace(/'/g,"''");
   const tap = q => fetch(`https://simbad.cds.unistra.fr/simbad/sim-tap/sync?REQUEST=doQuery&LANG=ADQL&FORMAT=json&QUERY=${encodeURIComponent(q)}`).then(r => { if (!r.ok) throw new Error(); return r.json(); });
   try {
-    const [idsRes, infoRes] = await Promise.all([
-      tap(`SELECT ids FROM ident JOIN ids USING(oidref) WHERE id='${esc}'`),
-      tap(`SELECT basic.otype_txt, basic.morph_type, allfluxes.V, basic.rvz_radvel, mesDistance.dist, mesDistance.unit FROM ident JOIN basic ON ident.oidref=basic.oid LEFT JOIN allfluxes ON allfluxes.oidref=basic.oid LEFT JOIN mesDistance ON mesDistance.oidref=basic.oid WHERE ident.id='${esc}'`).catch(() => null)
-    ]);
+    const idsRes = await tap(`SELECT ids FROM ident JOIN ids USING(oidref) WHERE id='${esc}'`);
+    const infoRes = await tap(`SELECT basic.otype_txt, basic.morph_type, allfluxes.V, basic.rvz_radvel, mesDistance.dist, mesDistance.unit FROM ident JOIN basic ON ident.oidref=basic.oid LEFT JOIN allfluxes ON allfluxes.oidref=basic.oid LEFT JOIN mesDistance ON mesDistance.oidref=basic.oid WHERE ident.id='${esc}'`).catch(() => null);
     const prefixes = ['NGC','IC','M ','Sh2','Ced','vdB','LBN','LDN','Simeis','CTB','Abell','B '];
     const raw = idsRes.data?.[0]?.[0] || '';
     const allIds = raw.split('|').map(x=>x.trim().replace(/\s+/g,' '));
@@ -3813,6 +3894,10 @@ function renderSettings() {
       <label style="display:flex;align-items:center;gap:8px;font-size:14px;margin-bottom:6px"><input type="checkbox" style="width:auto" ${prefs.wiki!==false?'checked':''} onchange="setNetPref('wiki',this.checked)"> Show Wikipedia Data</label>
       <label style="display:flex;align-items:center;gap:8px;font-size:14px"><input type="checkbox" style="width:auto" ${prefs.skyview!==false?'checked':''} onchange="setNetPref('skyview',this.checked)"> Show Framing Simulator</label>
       <p style="font-size:12px;color:var(--text-dim);margin-top:6px">Wikipedia shows a description and photo; the Framing Simulator shows a sky image (DSS2) with your field of view. Turn them off to save mobile data on a cellular connection. Saved immediately.</p>
+      <div style="margin-top:10px"><label style="font-size:13px;color:var(--text-dim)">Sky image in Framing</label>
+        <div class="segmented" id="set-skyload" style="width:auto;margin-top:4px"><button class="${prefs.skyLoad==='demand'?'':'active'}" onclick="setSkyLoadMode('auto',this)">Automatic</button><button class="${prefs.skyLoad==='demand'?'active':''}" onclick="setSkyLoadMode('demand',this)">On demand</button></div>
+        <p style="font-size:12px;color:var(--text-dim);margin-top:6px"><b>Automatic</b> downloads the sky image as soon as you open a target. <b>On demand</b> first shows only an outline — your camera's field of view and the target at true scale (from its catalog size) — with a <b>Load sky image</b> button, so you can skip images of targets too small to matter and save time and data. An image already cached on this device still appears right away.</p>
+      </div>
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px">
         <span id="img-cache-info" style="font-size:13px;color:var(--text-dim)">Image cache: …</span>
         <button class="btn-sm btn-secondary" onclick="clearImageCache()">Clear</button>
@@ -3863,15 +3948,19 @@ function renderSettings() {
 
   <h3 style="color:var(--accent);margin:20px 0 12px;display:flex;align-items:center;gap:6px">ℹ️ About</h3>
   <div class="card settings-card">
+    <p style="font-size:12px;color:var(--text-dim);margin-bottom:4px">Version ${APP_VERSION} · what's new: Help → Change Log</p>
     <p style="font-size:13px;line-height:1.5">Smart Astro Planner — an astrophotography planning tool by Crepusculum (crepusculum.space). Free to copy, modify and share for non-commercial use with credit (CC BY-NC-SA 4.0).</p>
     <p style="font-size:12px;color:var(--text-dim);margin-top:6px">Data sources: OpenNGC by Mattia Verga (CC BY-SA 4.0), VizieR/CDS (catalog data), Simbad (catalog identifiers), Wikipedia (object descriptions). Visibility calculations: astronomy-engine by Don Cross (MIT).</p>
     <p style="font-size:12px;color:var(--text-dim)">Sky images and narrowband measurements: DSS2 (STScI) and the Northern Sky Narrowband Survey by Stefan Ziegenbalg (CC BY-NC-SA 4.0, simg.de/nebulae3), served by CDS HiPS2FITS. Hα calibration uses data from the Wisconsin H-Alpha Mapper (WHAM), funded by the National Science Foundation.</p>
-    <details style="font-size:12px;color:var(--text-dim);margin-top:6px"><summary style="cursor:pointer">Sky survey acknowledgements (DSS2, HiPS2FITS)</summary>
+    <details style="font-size:12px;color:var(--text-dim);margin-top:6px"><summary style="cursor:pointer">Acknowledgements (sky images, catalogs, CDS services)</summary>
       <p style="margin-top:6px">The Digitized Sky Survey was produced at the Space Telescope Science Institute under U.S. Government grant NAG W-2166. The images of these surveys are based on photographic data obtained using the Oschin Schmidt Telescope on Palomar Mountain and the UK Schmidt Telescope. The plates were processed into the present compressed digital form with the permission of these institutions.</p>
       <p style="margin-top:6px">The National Geographic Society - Palomar Observatory Sky Atlas (POSS-I) was made by the California Institute of Technology with grants from the National Geographic Society.</p>
       <p style="margin-top:6px">The Second Palomar Observatory Sky Survey (POSS-II) was made by the California Institute of Technology with funds from the National Science Foundation, NASA, the National Geographic Society, the Sloan Foundation, the Samuel Oschin Foundation, and the Eastman Kodak Corporation. The Oschin Schmidt Telescope is operated by the California Institute of Technology and Palomar Observatory.</p>
       <p style="margin-top:6px">The UK Schmidt Telescope was operated by the Royal Observatory Edinburgh, with funding from the UK Science and Engineering Research Council (later the UK Particle Physics and Astronomy Research Council), until 1988 June, and thereafter by the Anglo-Australian Observatory. The blue plates of the southern Sky Atlas and its Equatorial Extension (together known as the SERC-J), the near-IR plates (SERC-I), as well as the Equatorial Red (ER), and the Second Epoch [red] Survey (SES) were all taken with the UK Schmidt telescope at the AAO.</p>
-      <p style="margin-top:6px">This research made use of hips2fits, a service provided by CDS. DSS images are copyrighted (Caltech, Anglo-Australian Observatory, AURA/STScI) and may be used freely for non-profit and educational purposes; commercial use requires written permission from the copyright holders.</p>
+      <p style="margin-top:6px">DSS images are copyrighted (Caltech, Anglo-Australian Observatory, AURA/STScI) and may be used freely for non-profit and educational purposes; commercial use requires written permission from the copyright holders.</p>
+      <p style="margin-top:6px">This research made use of <a href="https://alasky.cds.unistra.fr/hips-image-services/hips2fits" target="_blank" rel="noopener" style="color:var(--accent)">hips2fits</a>, a service provided by CDS.</p>
+      <p style="margin-top:6px">This research has made use of the SIMBAD database, operated at CDS, Strasbourg, France (Wenger et al. 2000, A&amp;AS 143, 9), and of the VizieR catalogue access tool, CDS, Strasbourg, France (DOI: 10.26093/cds/vizier; Ochsenbein et al. 2000, A&amp;AS 143, 23).</p>
+      <p style="margin-top:6px">Object catalog: OpenNGC (Mattia Verga, CC BY-SA 4.0) together with catalogs from VizieR — Sharpless (1959), van den Bergh (1966), Cederblad (1946), RCW (Rodgers, Campbell &amp; Whiteoak 1960), Barnard (1927), LDN (Lynds 1962), LBN (Lynds 1965), Green's Galactic supernova remnants (2025), the Strasbourg-ESO planetary nebulae (Acker et al. 1992), Dias et al. open clusters (2002) and the Mandel-Wilson IFN. Full credits are in the project's THIRD-PARTY-NOTICES.md.</p>
     </details>
     <p style="font-size:12px;color:var(--text-dim)">AI: Claude by Anthropic (descriptions, capture advice and help questions — your API key, your cost)</p>
     <p style="font-size:12px;color:var(--text-dim)">No personal data transmitted except to APIs you configure</p>
@@ -3927,6 +4016,10 @@ function clearKey() {
   toast('API key cleared');
 }
 
+function setSkyLoadMode(mode, btn) {
+  LS.set('sap_preferences', {...getPrefs(), skyLoad: mode});
+  btn.parentElement.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+}
 function setNetPref(key, val) { LS.set('sap_preferences', {...getPrefs(), [key]: val}); }
 
 function savePrefs() {

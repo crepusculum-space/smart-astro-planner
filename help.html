@@ -42,7 +42,7 @@ figure{margin:14px 0 18px}figure img{display:block;width:100%;height:auto;border
 <div class="help-wrap">
 
 <div class="help-title">Smart Astro Planner</div>
-<div class="help-subtitle">Help &amp; Getting Started Guide · v3.3</div>
+<div class="help-subtitle">Help &amp; Getting Started Guide · v3.6</div>
 
 <div class="toc">
   <div class="toc-title">Contents</div>
@@ -67,6 +67,7 @@ figure{margin:14px 0 18px}figure img{display:block;width:100%;height:auto;border
   <a href="#database">Local Database</a>
   <a href="#tips">Tips &amp; Best Practices</a>
   <a href="#support">How to Get Support</a>
+  <a href="#changelog">Change Log</a>
 </div>
 
 <hr>
@@ -272,6 +273,7 @@ figure{margin:14px 0 18px}figure img{display:block;width:100%;height:auto;border
 <p>When enabled in Settings and an equipment configuration exists, the detail screen shows a real sky image (DSS2, from the CDS HiPS2FITS service) centered on the target with your sensor's field of view drawn on top at true scale. North is up, East is left. Because it is a real image rather than a catalog size, it stays accurate even when the catalog's own size data is missing or wrong.</p>
 <ul>
   <li><b>Color / Red</b> — Red shows faint emission nebulae much better (the red plate is sensitive to H-alpha) and does not saturate bright cores; Color looks more natural for galaxies and clusters. Red is chosen by default for emission nebulae, supernova remnants and planetary nebulae, Color for the rest. When you switch, your choice is remembered for that object type (and included in the backup).</li>
+  <li><b>Automatic or on demand</b> — in <b>Settings → Preferences → Sky image in Framing</b> you can choose <b>Automatic</b> (the image downloads as soon as you open a target, as described above) or <b>On demand</b>. On demand first shows only an outline: your sensor's field of view (blue) and the target as a dashed outline at true scale, taken from its catalog size, with a line such as "Target 6.7′ · about 9% of the frame width" (and "tiny in this frame" when you could not see it anyway). Tap <b>Load sky image</b> to download the picture for that target; until then nothing is downloaded, which saves time and mobile data and spares the CDS service. You can still drag to reframe, rotate the camera and double-click or long-press for <b>What's in my Frame?</b> on the outline. Catalog sizes can be approximate (and a few objects have none — the outline then says "size unknown"), so use it as a hint, not a verdict. An image already stored on your device appears right away.</li>
   <li><b>Camera angle</b> — slider that rotates the field-of-view rectangle to test different camera orientations.</li>
   <li><b>Equipment</b> — if you have several configurations, a selector changes the size of the rectangle to preview the same target with another telescope/camera. It does not change your target list.</li>
   <li><b>Moving the framing</b> — drag the image to shift the framing. The rectangle stays at the center; when you release, a new image centered on the new position is loaded. The coordinates of the center are shown below the image, with a <b>Reset to target</b> button to come back.</li>
@@ -304,13 +306,13 @@ figure{margin:14px 0 18px}figure img{display:block;width:100%;height:auto;border
 <p>The blue filled area shows when the target is above the location's minimum imaging altitude. A dashed line shows the <b>Moon's angular separation</b> from the target on the same 0–90° scale — the dash pattern reflects lunar phase (dotted = new moon, solid = full moon).</p>
 <p>Use the <b>slider</b> below the chart to navigate between weeks. Swipe on the chart, or tap <b>‹ ›</b>, to toggle between <b>WEEK</b> mode (weekly overview) and <b>DAY</b> mode (day-by-day within the selected week) — the slider then moves through weeks or days depending on the current mode.</p>
 <h3>Which filters can I shoot? (the filter badges)</h3>
-<p>The dashed grey line is the Moon's angular distance from the target — it only shows <i>where the Moon is</i>. To know <i>what that means for your filters</i>, set <b>Moon Separation Thresholds</b> in <b>Settings → Preferences</b>: the minimum distance, in degrees, at which you are comfortable shooting Hα, OIII, SII and/or Broadband (one shared value for L, R, G and B). Under the chart you then get one badge per filter of <i>this target's own equipment</i>, with its threshold:</p>
+<p>The dashed grey line is the Moon's angular distance from the target — it only shows <i>where the Moon is</i>. To know <i>what that means for your filters</i>, set <b>Moon Separation Thresholds</b> in <b>Settings → Preferences</b>: the minimum distance, in degrees, at which you are comfortable shooting Hα, OIII, SII and/or Broadband (one shared value for L, R, G and B). Under the chart (above the slider, so your finger never hides them while you drag it) you then get one badge per filter of <i>this target's own equipment</i>:</p>
 <ul>
   <li><b>Full color</b> — the Moon stays at least that far away for the whole astronomical night. You can shoot it.</li>
   <li><b>Dashed and faded, with ◐</b> — usable for <i>part</i> of the night only. The hours are listed just below (for example "OIII: 18:21–00:11").</li>
   <li><b>Grey</b> — the Moon is too close all night for that filter.</li>
 </ul>
-<p>The line under the badges also tells you how far the Moon is during that night (for example "120–122°"). The badges follow the slider: move it through the weeks, or switch to the day-by-day view, and they recalculate for the night you are looking at. A filter whose threshold you left blank is not shown (and is listed as such), and if you leave all four fields blank the badges are hidden.</p>
+<p>The line under the badges also tells you how far the Moon is during that night (for example "120–122°"). The badges follow the slider: move it through the weeks, or switch to the day-by-day view, and they recalculate for the night you are looking at. A filter whose threshold you left blank is not shown (and is listed as such), and if you leave all four fields blank the badges are hidden. On a computer, hover a badge to see the threshold you set for it.</p>
 <div class="note">The chart follows your current framing, not just the catalog position: if you drag the image in the Framing card to a different spot, the Altitude Profile (and Best Season below) recalculates for that exact center as soon as you release it.</div>
 
 <hr>
@@ -483,6 +485,46 @@ figure{margin:14px 0 18px}figure img{display:block;width:100%;height:auto;border
 <hr>
 <h2 id="support">How to Get Support</h2>
 <p>The developer offers support for this app on the <b>Astro Dev Hub</b> Discord server — join with this invite link: <a href="https://discord.gg/bwkWKcajRM" target="_blank" rel="noopener">https://discord.gg/bwkWKcajRM</a></p>
+
+<hr>
+<h2 id="changelog">Change Log</h2>
+<p>What changed in each version, newest first. The version you are running is shown in <b>Settings → About</b>; if it is older than the top entry below, close and reopen the app (installed apps sometimes need a second launch, or a refresh, to pick up an update).</p>
+
+<h3>2026-10-07</h3>
+<ul>
+  <li><b>New: "Sky image in Framing" setting</b> (Settings → Preferences) — <b>Automatic</b> (as before) or <b>On demand</b>. On demand first shows an outline of your camera's field of view and of the target at true scale, with a <b>Load sky image</b> button, so you can skip the download for targets too small to matter and save time and mobile data.</li>
+  <li>The sky-image service (CDS) is now used more gently: one request at a time, and the My Targets thumbnails load one after the other.</li>
+  <li>Settings → About now lists the full acknowledgements for the sky surveys, the CDS services and the catalogs.</li>
+</ul>
+
+<h3>2026-10-06</h3>
+<ul>
+  <li><b>Altitude Profile: filter badges.</b> Under the chart, one badge per filter of your equipment shows what the Moon leaves usable that night — full color = all night, dashed ◐ = part of the night (the hours are listed), grey = too close. They follow the week/day slider and sit above it so your finger does not hide them. This replaces the colored Moon line.</li>
+  <li>Fixed Moon distance thresholds above 90° (typically Broadband) never being reached.</li>
+  <li>If the main CDS sky-image server stops answering, the app now switches to its mirror automatically and shows a clear message instead of spinning forever.</li>
+</ul>
+
+<h3>2026-10-04</h3>
+<ul>
+  <li>Location form: the <b>Timezone</b> list now contains every timezone (about 420, it had 12).</li>
+  <li>The astronomy calculations are now stored with the app, so visibility, altitude and transit work fully offline — for example at a dark site without internet.</li>
+  <li>The Wikipedia card links to the full article. A credit line with links sits under the Framing image.</li>
+  <li>New app and navigation icons. New <b>How to Get Support</b> section (Discord).</li>
+</ul>
+
+<h3>2026-10-01</h3>
+<ul>
+  <li><b>My Targets now fixes the observing site</b> (like the equipment): each saved framing keeps the site it was planned for, shown on its card, and Best Season and the Altitude Profile use that site.</li>
+  <li><b>What's in my Frame?</b> — double-click (mouse) or long-press (touch) on the sky image to list the deep-sky objects at that spot, outlined on the image, and add them to your target list.</li>
+  <li><b>+ Night Info</b> is now also available from My Targets, and sends the framing center you dragged to.</li>
+</ul>
+
+<h3>Earlier (September 2026)</h3>
+<ul>
+  <li>Choose which Claude model powers the AI features; "Fetch specs" for telescopes as well as sensors.</li>
+  <li>Moon Separation Thresholds in Settings; small <b>?</b> buttons that open the matching part of this guide; the floating <b>❓</b> Ask AI box.</li>
+  <li>My Targets replaced dated session plans; Framing with real sky images and Emission Lines in Frame; Backup &amp; Sync between devices.</li>
+</ul>
 
 <hr>
 <p style="font-size:12px;color:#333355;text-align:center">Smart Astro Planner — a project by Crepusculum (crepusculum.space)<br>AI powered by Claude (Anthropic) · Object catalog from VizieR/CDS, OpenNGC, Wikipedia, and Simbad</p>

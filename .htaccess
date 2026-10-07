@@ -3,3 +3,16 @@
   Header set Pragma "no-cache"
   Header set Expires "0"
 </FilesMatch>
+
+# Compress the object catalog (3.6 MB of JSON, about 0.7 MB compressed) and the scripts.
+# HTML is already compressed by the host; JSON was not. Harmless if mod_deflate is absent.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE application/json application/javascript text/javascript
+</IfModule>
+
+# The host (LiteSpeed) compresses text types but not application/json, so the 3.6 MB catalog was sent raw.
+# Serving that one file as text/plain gets it compressed; the app reads it with response.json(), which
+# ignores the content type, and the service worker caches the decoded body either way.
+<Files "catalog.json">
+  ForceType text/plain
+</Files>
