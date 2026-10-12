@@ -2,7 +2,7 @@
   "name": "Smart Astro Planner",
   "short_name": "SAPlanner",
   "description": "AI-powered astrophotography session planner",
-  "start_url": "/smart-astro-planner/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#0a0a1a",
   "theme_color": "#0a0a1a",

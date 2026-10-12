@@ -1,4 +1,4 @@
-const CACHE_NAME = 'smart-astro-planner-v77';
+const CACHE_NAME = 'smart-astro-planner-v78';
 const IMG_CACHE = 'sap-images';
 const IMG_MAX = 80;
 const IMG_HOSTS = ['alasky.cds.unistra.fr', 'alaskybis.cds.unistra.fr', 'upload.wikimedia.org'];
