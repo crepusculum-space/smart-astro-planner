@@ -438,7 +438,7 @@ function sortTargetsForList(targets) {
 function getMyTargets() { return LS.get('sap_mytargets',[]) }
 function saveMyTargets(arr) { LS.set('sap_mytargets', arr) }
 function getMode() { return LS.get('sap_mode','non-assisted') }
-const HELP_VERSION = '5.6';
+const HELP_VERSION = '5.7';
 const APP_VERSION = '2026-10-07';
 const DEFAULT_CLAUDE_MODEL = 'claude-sonnet-4-6';
 function getClaudeModel() { return LS.get('sap_claude_model', DEFAULT_CLAUDE_MODEL) }

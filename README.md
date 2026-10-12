@@ -19,10 +19,6 @@ python3 -m http.server 8080
 Then open http://localhost:8080. Do not open `index.html` through `file://` (the catalog fetch and the
 service worker need HTTP).
 
-## Support
-
-Questions and bug reports: the **Astro Dev Hub** Discord — https://discord.gg/bwkWKcajRM
-
 ## License
 
 Copyright (c) 2026 Crepusculum.
