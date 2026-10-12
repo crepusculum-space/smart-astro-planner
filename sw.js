@@ -1,8 +1,8 @@
-const CACHE_NAME = 'smart-astro-planner-v78';
+const CACHE_NAME = 'smart-astro-planner-v79';
 const IMG_CACHE = 'sap-images';
 const IMG_MAX = 80;
 const IMG_HOSTS = ['alasky.cds.unistra.fr', 'alaskybis.cds.unistra.fr', 'upload.wikimedia.org'];
-const ASSETS = ['manifest.json', 'icon-192.png', 'icon-512.png', 'help.html?v=5.7', 'catalog.json?v=5', 'astronomy.browser.min.js?v=2.1.19'];
+const ASSETS = ['manifest.json', 'icon-192.png', 'icon-512.png', 'help.html?v=5.8', 'catalog.json?v=5', 'astronomy.browser.min.js?v=2.1.19'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)));

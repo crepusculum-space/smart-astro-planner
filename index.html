@@ -438,8 +438,8 @@ function sortTargetsForList(targets) {
 function getMyTargets() { return LS.get('sap_mytargets',[]) }
 function saveMyTargets(arr) { LS.set('sap_mytargets', arr) }
 function getMode() { return LS.get('sap_mode','non-assisted') }
-const HELP_VERSION = '5.7';
-const APP_VERSION = '2026-10-07';
+const HELP_VERSION = '5.8';
+const APP_VERSION = '2026-10-12';
 const DEFAULT_CLAUDE_MODEL = 'claude-sonnet-4-6';
 function getClaudeModel() { return LS.get('sap_claude_model', DEFAULT_CLAUDE_MODEL) }
 function getPrefs() { return LS.get('sap_preferences',{listSize:15}) }
@@ -3950,6 +3950,7 @@ function renderSettings() {
   <div class="card settings-card">
     <p style="font-size:12px;color:var(--text-dim);margin-bottom:4px">Version ${APP_VERSION} · what's new: Help → Change Log</p>
     <p style="font-size:13px;line-height:1.5">Smart Astro Planner — an astrophotography planning tool by Crepusculum (crepusculum.space). Free to copy, modify and share for non-commercial use with credit (CC BY-NC-SA 4.0).</p>
+    <p style="font-size:12px;color:var(--text-dim);margin-top:6px">Source code and bug reports: <a href="https://github.com/crepusculum-space/smart-astro-planner" target="_blank" rel="noopener" style="color:var(--accent)">github.com/crepusculum-space/smart-astro-planner</a></p>
     <p style="font-size:12px;color:var(--text-dim);margin-top:6px">Data sources: OpenNGC by Mattia Verga (CC BY-SA 4.0), VizieR/CDS (catalog data), Simbad (catalog identifiers), Wikipedia (object descriptions). Visibility calculations: astronomy-engine by Don Cross (MIT).</p>
     <p style="font-size:12px;color:var(--text-dim)">Sky images and narrowband measurements: DSS2 (STScI) and the Northern Sky Narrowband Survey by Stefan Ziegenbalg (CC BY-NC-SA 4.0, simg.de/nebulae3), served by CDS HiPS2FITS. Hα calibration uses data from the Wisconsin H-Alpha Mapper (WHAM), funded by the National Science Foundation.</p>
     <details style="font-size:12px;color:var(--text-dim);margin-top:6px"><summary style="cursor:pointer">Acknowledgements (sky images, catalogs, CDS services)</summary>
